@@ -1,5 +1,5 @@
 // import { connectDB } from './config/mongoose';
-// import { errorMiddleware } from './middlewares/error-middleware';
+import { errorMiddleware } from './middlewares/error-middleware';
 import express, { Application } from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
@@ -25,7 +25,7 @@ const main = async () => {
 
   app.use(router)
 
-  // app.use(errorMiddleware)
+  app.use(errorMiddleware)
 
   app.listen(process.env.PORT, () => {
     console.log(
