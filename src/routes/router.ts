@@ -4,7 +4,7 @@ import { router as v1Router } from './api/v1/router'
 
 export const router = express.Router()
 
-router.get('/', (req, res) => {
+router.get('/', (req: Request, res: Response) => {
   res.send('Welcome to our API')
 })
 
