@@ -22,9 +22,7 @@ const main = async () => {
   // Parse requests of the content type application/json.
   app.use(express.json())
 
-
   app.use(router)
-
   app.use(errorMiddleware)
 
   app.listen(process.env.PORT, () => {
