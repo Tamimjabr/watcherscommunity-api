@@ -17,5 +17,4 @@ export const errorMiddleware = (err: HttpError, req: Request, res: Response, nex
     message: err.message,
     stack: err.stack
   })
-
 }

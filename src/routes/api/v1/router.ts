@@ -6,4 +6,5 @@ router.get('/', (req, res) => {
   res.send('Welcome to our API. V1')
 })
 
+
 router.use('/auth', authRouter)
