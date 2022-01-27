@@ -1,17 +1,13 @@
 import { IUser, UserModel } from "../models/user"
 
-
-
 export const addUser = async (user: IUser) => {
   const newUser = new UserModel(user)
-  return await newUser.save()
+  const savedUser = await newUser.save()
+  await newUser.setPassword(user.password)
+  return savedUser
 }
 
 
-  // async register (user: IUser): Promise<IUser> {
-  //   const newUser = new UserModel(user)
-  //   return await newUser.save()
-  // }
 
   // async login (email: string, password: string): Promise<User> {
   //   const user = await this.userModel.findOne({ email })
