@@ -6,8 +6,6 @@ import cors from 'cors'
 import logger from 'morgan'
 import { router } from './routes/router';
 
-
-
 const main = async () => {
   await connectDB()
   const app: Application = express()
@@ -30,9 +28,7 @@ const main = async () => {
       `Server running in ${process.env.NODE_ENV} at http://localhost:${process.env.PORT}`
     )
     console.log('Press Ctrl-C to terminate...')
-
   })
-
 }
 
 main().catch(console.error)
