@@ -1,5 +1,5 @@
 import express from 'express'
-import { AuthController} from '../../../controllers/auth-controller'
+import { AuthController } from '../../../controllers/auth-controller'
 
 export const router = express.Router()
 
@@ -9,6 +9,6 @@ router.get('/', (req, res) => {
   res.send('Auth route')
 })
 
-router.post('register', (req, res, next) => {
+router.post('/register', (req, res, next) => {
   controller.register(req, res, next)
 })

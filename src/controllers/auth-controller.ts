@@ -1,3 +1,4 @@
+import { addUser } from './../respository/auth-respository';
 import createError from 'http-errors';
 import { Request, Response, NextFunction } from 'express'
 
@@ -6,17 +7,17 @@ interface AuthControllerInterface {
 }
 
 export class AuthController implements AuthControllerInterface {
-
   async register (req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await User.insert({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+      const user = await addUser({
         email: req.body.email,
         password: req.body.password
       })
+      console.log('====================================');
+      console.log(user);
+      console.log('====================================');
       res.status(201).json({
-        id: user.id
+        userID: user._id
       })
     } catch (error: any) {
       let err = error
