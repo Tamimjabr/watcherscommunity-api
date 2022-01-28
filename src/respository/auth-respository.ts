@@ -8,8 +8,8 @@ export const addUser = async (user: IUser) => {
   return savedUser
 }
 
-export const getUser = async (email: string) => {
-  const user = await UserModel.findOne({ email })
+export const getUser = async (emailOrID: string) => {
+  const user = await UserModel.findOne({ emailOrID })
   return user
 }
 
