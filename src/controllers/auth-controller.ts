@@ -36,4 +36,8 @@ export class AuthController implements AuthControllerInterface {
     }
   }
 
+  async login (req: Request, res: Response, next: NextFunction) {
+
+  }
+
 }

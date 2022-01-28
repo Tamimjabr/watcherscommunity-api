@@ -1,3 +1,4 @@
+import InvalidCredentialsError from "../errors/InvalidCredentialsError"
 import { IUser, UserModel } from "../models/user"
 
 export const addUser = async (user: IUser) => {
@@ -7,7 +8,21 @@ export const addUser = async (user: IUser) => {
   return savedUser
 }
 
+export const getUser = async (email: string) => {
+  const user = await UserModel.findOne({ email })
+  return user
+}
 
+export const authorizeUser = async (email: string, password: string) => {
+  const user = await getUser(email)
+  if (user) {
+    const authorized = await user.checkPassword(password)
+    if (authorized) {
+      return user
+    }
+  }
+  throw new InvalidCredentialsError()
+}
 
   // async login (email: string, password: string): Promise<User> {
   //   const user = await this.userModel.findOne({ email })
