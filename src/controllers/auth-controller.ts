@@ -1,14 +1,11 @@
-import { addUser } from './../respository/auth-respository';
+import { addUser, authorizeUser } from './../respository/auth-respository';
 import createError from 'http-errors';
 import { Request, Response, NextFunction } from 'express'
 import ConflictError from '../errors/ConflictError';
 import ValidationError from '../errors/ValidationError';
 
-interface AuthControllerInterface {
-  register (req: Request, res: Response, next: NextFunction): void;
-}
 
-export class AuthController implements AuthControllerInterface {
+export class AuthController {
 
   async register (req: Request, res: Response, next: NextFunction) {
     try {
@@ -37,7 +34,18 @@ export class AuthController implements AuthControllerInterface {
   }
 
   async login (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body
+      const user = await authorizeUser(email, password)
 
+      res.status(200).json({
+        userID: user._id
+      })
+    } catch (error: any) {
+      let err = error
+      err.innerException = error
+      next(error)
+    }
   }
 
 }
