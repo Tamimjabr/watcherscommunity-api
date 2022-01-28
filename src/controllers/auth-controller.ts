@@ -1,6 +1,6 @@
 import createError from 'http-errors';
 import { generateJWT, Payload, decodeJWT } from './../helpers/jwt-generator';
-import { addUser, authorizeUser, getUser } from './../respository/auth-respository';
+import { addUser, authorizeUser, getUserById } from './../respository/auth-respository';
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express'
 import ConflictError from '../errors/ConflictError';
@@ -52,16 +52,11 @@ export class AuthController {
   }
 
   async refresh (req: Request, res: Response, next: NextFunction) {
-    const { refresh_token } = req.body
-
-    if (!refresh_token) {
-      next(new InvalidTokenError('refresh'))
-      return
-    }
     try {
+      const { refresh_token } = req.body
       jwt.verify(refresh_token, REFRESH_TOKEN_SECRET!)
       const decoded: Payload = decodeJWT(refresh_token)
-      const user = await getUser(decoded.userID)
+      const user = await getUserById(decoded.userID)
       if (!user || user.id !== decoded.userID) {
         next(new InvalidTokenError('refresh'))
         return
@@ -69,7 +64,7 @@ export class AuthController {
       const tokens = this._generateAccessRefreshTokens(decoded?.userID)
       res.status(201).json(tokens)
     } catch (error) {
-      next(createError(403))
+      next(createError(401))
     }
   }
 

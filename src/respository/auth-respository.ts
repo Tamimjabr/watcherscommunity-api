@@ -8,13 +8,19 @@ export const addUser = async (user: IUser) => {
   return savedUser
 }
 
-export const getUser = async (emailOrID: string) => {
-  const user = await UserModel.findOne({ emailOrID })
+export const getUserByEmail = async (email: string) => {
+  const user = await UserModel.findOne({ email })
   return user
 }
 
+export const getUserById = async (id: string) => {
+  const user = await UserModel.findById({ _id: id })
+  return user
+}
+
+
 export const authorizeUser = async (email: string, password: string) => {
-  const user = await getUser(email)
+  const user = await getUserByEmail(email)
   if (user) {
     const authorized = await user.checkPassword(password)
     if (authorized) {
