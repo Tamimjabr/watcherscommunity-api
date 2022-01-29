@@ -42,7 +42,7 @@ export class AuthController {
       const { email, password } = req.body
       const user = await authorizeUser(email, password)
       const tokens = generateAccessRefreshTokens(user._id)
-      
+
       res.status(200).json(tokens)
     } catch (error: any) {
       let err = error

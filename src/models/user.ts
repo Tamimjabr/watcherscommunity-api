@@ -10,7 +10,7 @@ export interface IUser {
 }
 
 interface IUserDocument extends IUser, Document {
-  setPassword: (password: string) => Promise<void>;
+  hashPassword: (password: string) => Promise<void>;
   checkPassword: (password: string) => Promise<boolean>;
 }
 
@@ -40,7 +40,7 @@ const UserSchema: Schema<IUserDocument> = new Schema(
   }
 )
 
-UserSchema.methods.setPassword = async function (password: string) {
+UserSchema.methods.hashPassword = async function (password: string) {
   const hash = await bcrypt.hash(password, 10);
   this.password = hash;
 };

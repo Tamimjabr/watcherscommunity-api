@@ -3,8 +3,8 @@ import { IUser, UserModel } from "../models/user"
 
 export const addUser = async (user: IUser) => {
   const newUser = new UserModel(user)
+  await newUser.hashPassword(user.password)
   const savedUser = await newUser.save()
-  await newUser.setPassword(user.password)
   return savedUser
 }
 
@@ -17,7 +17,6 @@ export const getUserById = async (id: string) => {
   const user = await UserModel.findById({ _id: id })
   return user
 }
-
 
 export const authorizeUser = async (email: string, password: string) => {
   const user = await getUserByEmail(email)
