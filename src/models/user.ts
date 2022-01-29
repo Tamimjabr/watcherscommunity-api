@@ -1,3 +1,4 @@
+import { NextFunction } from 'express';
 import mongoose, { Schema, Document, Model } from "mongoose";
 import validator from 'validator'
 import bcrypt from "bcrypt";
@@ -10,7 +11,6 @@ export interface IUser {
 }
 
 interface IUserDocument extends IUser, Document {
-  hashPassword: (password: string) => Promise<void>;
   checkPassword: (password: string) => Promise<boolean>;
 }
 
@@ -40,10 +40,9 @@ const UserSchema: Schema<IUserDocument> = new Schema(
   }
 )
 
-UserSchema.methods.hashPassword = async function (password: string) {
-  const hash = await bcrypt.hash(password, 10);
-  this.password = hash;
-};
+UserSchema.pre('save', async function preSave (this: IUser, next) {
+  this.password = await bcrypt.hash(this.password, 10)
+})
 
 UserSchema.methods.checkPassword = async function (password: string) {
   const result = await bcrypt.compare(password, this.password);

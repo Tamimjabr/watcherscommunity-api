@@ -3,7 +3,6 @@ import { IUser, UserModel } from "../models/user"
 
 export const addUser = async (user: IUser) => {
   const newUser = new UserModel(user)
-  await newUser.hashPassword(user.password)
   const savedUser = await newUser.save()
   return savedUser
 }
