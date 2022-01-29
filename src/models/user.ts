@@ -13,10 +13,6 @@ interface IUserDocument extends IUser, Document {
   checkPassword: (password: string) => Promise<boolean>;
 }
 
-interface IUserModel extends Model<IUserDocument> {
-  findByemail: (email: string) => Promise<IUserDocument>;
-}
-
 const UserSchema: Schema<IUserDocument> = new Schema(
   {
     email: {
@@ -51,4 +47,4 @@ UserSchema.methods.checkPassword = async function (password: string) {
   return result;
 };
 
-export const UserModel = mongoose.model<IUserDocument, IUserModel>("User", UserSchema);
+export const UserModel = mongoose.model<IUserDocument>("User", UserSchema);

@@ -1,3 +1,4 @@
+import { addToken } from './../respository/token-repository';
 import createError from 'http-errors';
 import { generateJWT, Payload, decodeJWT, generateAccessRefreshTokens } from './../helpers/jwt-generator';
 import { addUser, authorizeUser, getUserById } from './../respository/auth-respository';
@@ -42,7 +43,7 @@ export class AuthController {
       const { email, password } = req.body
       const user = await authorizeUser(email, password)
       const tokens = generateAccessRefreshTokens(user._id)
-
+      await addToken({ userID: user._id, refreshToken: tokens.refresh_token })
       res.status(200).json(tokens)
     } catch (error: any) {
       let err = error
@@ -61,8 +62,8 @@ export class AuthController {
         next(new InvalidTokenError('refresh'))
         return
       }
-
       const tokens = generateAccessRefreshTokens(decoded?.userID)
+      await addToken({ userID: user._id, refreshToken: tokens.refresh_token })
       res.status(201).json(tokens)
     } catch (error) {
       next(createError(401))
