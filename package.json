@@ -12,7 +12,8 @@
     "start:dev": "nodemon -r dotenv/config src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p .",
-    "build:dev": "tsc -w -p ."
+    "build:dev": "tsc -w -p .",
+    "newman": "newman run ./postman-tests/watcherscommunity-API.postman_collection.json -e ./postman-tests/Watcherscommunity-environment.postman_environment.json"
   },
   "keywords": [],
   "author": "",
