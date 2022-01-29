@@ -1,4 +1,3 @@
-import { NextFunction } from 'express';
 import mongoose, { Schema, Document, Model } from "mongoose";
 import validator from 'validator'
 import bcrypt from "bcrypt";
@@ -40,7 +39,10 @@ const UserSchema: Schema<IUserDocument> = new Schema(
   }
 )
 
-UserSchema.pre('save', async function preSave (this: IUser, next) {
+UserSchema.pre('save', async function preSave (this: IUserDocument, next) {
+  if (!this.isModified('password')) {
+    next()
+  }
   this.password = await bcrypt.hash(this.password, 10)
 })
 
