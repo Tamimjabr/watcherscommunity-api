@@ -1,6 +1,6 @@
-import { addToken } from './../respository/token-repository';
+import { addToken, getTokenByUserId } from './../respository/token-repository';
 import createError from 'http-errors';
-import { generateJWT, Payload, decodeJWT, generateAccessRefreshTokens } from './../helpers/jwt-generator';
+import { generateJWT, Payload, decodeJWT, generateAccessRefreshTokens, generateAccessToken } from './../helpers/jwt-generator';
 import { addUser, authorizeUser, getUserById } from './../respository/auth-respository';
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express'
@@ -57,14 +57,14 @@ export class AuthController {
       const { refresh_token } = req.body
       jwt.verify(refresh_token, REFRESH_TOKEN_SECRET!)
       const decoded: Payload = decodeJWT(refresh_token)
+      const tokenInDB = await getTokenByUserId(decoded.userID)
       const user = await getUserById(decoded.userID)
-      if (!user || user.id !== decoded.userID) {
+      if (!tokenInDB || !user) {
         next(new InvalidTokenError('refresh'))
         return
       }
-      const tokens = generateAccessRefreshTokens(decoded?.userID)
-      await addToken({ userID: user._id, refreshToken: tokens.refresh_token })
-      res.status(201).json(tokens)
+      const accessToken = generateAccessToken(decoded?.userID)
+      res.status(201).json({ access_token: accessToken })
     } catch (error) {
       next(createError(401))
     }
