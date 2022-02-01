@@ -177,7 +177,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"const postRequest = {\r",
+											"// make sure the user is registered\r",
+											"const firstUserRegRequest = {\r",
 											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
@@ -186,11 +187,11 @@
 											"  },\r",
 											"  body: {\r",
 											"    mode: 'raw',\r",
-											"    raw: JSON.stringify({  \"email\": \"duplicated@example.com\",\r",
-											"  \"password\": \"randompassword\"})\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('duplicated_user'),\r",
+											"  \"password\": pm.environment.get('randompassword')})\r",
 											"  }\r",
 											"};\r",
-											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"pm.sendRequest(firstUserRegRequest, (error, response) => {\r",
 											"  console.log(error ? error : response.json());\r",
 											"});"
 										],
@@ -203,7 +204,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"{{duplicated_user}}\",\r\n    \"password\":\"randompassword\"\r\n}",
+									"raw": "{\r\n    \"email\": \"{{duplicated_user}}\",\r\n    \"password\":\"{{randompassword}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -234,6 +235,31 @@
 							"name": "200 login - valid credentials",
 							"event": [
 								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// make sure the user is registered\r",
+											"const firstUserRegRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('duplicated_user'),\r",
+											"  \"password\": pm.environment.get('randompassword')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(firstUserRegRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
 									"listen": "test",
 									"script": {
 										"exec": [
@@ -251,15 +277,6 @@
 										],
 										"type": "text/javascript"
 									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
 								}
 							],
 							"request": {
@@ -267,7 +284,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"{{duplicated_user}}\",\r\n    \"password\":\"randompassword\"\r\n}",
+									"raw": "{\r\n    \"email\": \"{{duplicated_user}}\",\r\n    \"password\":\"{{randompassword}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -548,6 +565,15 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -584,7 +610,43 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const postRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"    // login the user to get tokens\r",
+											"  const postRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"  const jsonData = response.json()\r",
+											"  const {access_token, refresh_token}= jsonData\r",
+											"  pm.environment.set('access_token_to_logout', access_token)\r",
+											"  pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"});\r",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -596,7 +658,7 @@
 											"pm.test(\"Refresh successfully with correct refresh token\", function(){\r",
 											"    pm.response.to.have.status(201)\r",
 											"    const jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData).to.have.all.keys('access_token', 'refresh_token');\r",
+											"    pm.expect(jsonData).to.have.all.keys('access_token');\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -608,7 +670,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"refresh_token\":{{refresh_token}}\r\n}",
+									"raw": "{\r\n    \"refresh_token\":\"{{refresh_token_to_logout}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -670,6 +732,398 @@
 										"v1",
 										"auth",
 										"refresh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/logout",
+					"item": [
+						{
+							"name": "204 - logout user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const postRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"    // login the user to get tokens\r",
+											"  const postRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"  const jsonData = response.json()\r",
+											"  const {access_token, refresh_token}= jsonData\r",
+											"  pm.environment.set('access_token_to_logout', access_token)\r",
+											"  pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"});\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Logout user successfully with correct access and refresh tokens\", function(){\r",
+											"    pm.response.to.have.status(204)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"access_token\":\"{{access_token_to_logout}}\",\r\n    \"refresh_token\":\"{{refresh_token_to_logout}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/auth/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "401 - logout invalid access token",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const postRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"  // login the user to get tokens\r",
+											"  const postRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"  const jsonData = response.json()\r",
+											"  const {access_token, refresh_token}= jsonData\r",
+											"  pm.environment.set('access_token_to_logout', access_token)\r",
+											"  pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"});\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Not logout user with invalid access token\", function(){\r",
+											"    pm.response.to.have.status(401)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"access_token\":\"IAMINVALIDACESSTOKEN\",\r\n    \"refresh_token\":\"{{refresh_token_to_logout}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/auth/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "401 logout invalid refresh token",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const postRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"// login the user to get tokens\r",
+											"  const postRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"  const jsonData = response.json()\r",
+											"  const {access_token, refresh_token}= jsonData\r",
+											"  pm.environment.set('access_token_to_logout', access_token)\r",
+											"  pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"});\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Not logout user with invalid refresh token\", function(){\r",
+											"    pm.response.to.have.status(401)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"access_token\":\"{{access_token_to_logout}}\",\r\n    \"refresh_token\":\"IAMINVALIDREFRESHTOKEN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/auth/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 logout access token from another user Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const firstUserRegRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(firstUserRegRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"// login the user to get tokens\r",
+											"  const firstUserLoginRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(firstUserLoginRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"  const jsonData = response.json()\r",
+											"  const {access_token, refresh_token}= jsonData\r",
+											"  pm.environment.set('access_token_to_logout', access_token)\r",
+											"  pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"});\r",
+											"});\r",
+											"\r",
+											"// the second user\r",
+											"const secondUserRegRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('second_user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('second_user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(secondUserRegRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"// login the user to get tokens\r",
+											"  const secondUserLoginRequest = {\r",
+											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('second_user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('second_user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(secondUserLoginRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"  const jsonData = response.json()\r",
+											"  const {access_token, refresh_token}= jsonData\r",
+											"  pm.environment.set('second_access_token_to_logout', access_token)\r",
+											"  pm.environment.set('second_refresh_token_to_logout',refresh_token)\r",
+											"});\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Not logout user with access and refresh tokens from different users\", function(){\r",
+											"    pm.response.to.have.status(403)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"access_token\":\"{{access_token_to_logout}}\",\r\n    \"refresh_token\":\"{{second_refresh_token_to_logout}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/auth/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"logout"
 									]
 								}
 							},
