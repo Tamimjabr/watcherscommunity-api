@@ -1,4 +1,4 @@
-import { addToken, getToken, getTokenByUserId } from './../respository/token-repository';
+import { addToken, deleteToken, getToken, getTokenByUserId } from './../respository/token-repository';
 import createError from 'http-errors';
 import { generateJWT, Payload, decodeJWT, generateAccessRefreshTokens, generateAccessToken } from './../helpers/jwt-generator';
 import { addUser, authorizeUser, getUserById } from './../respository/auth-respository';
@@ -9,7 +9,7 @@ import ValidationError from '../errors/ValidationError';
 import InvalidTokenError from '../errors/InvalidToken';
 
 
-const { REFRESH_TOKEN_SECRET } = process.env
+const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET } = process.env
 
 export class AuthController {
 
@@ -65,6 +65,33 @@ export class AuthController {
       }
       const accessToken = generateAccessToken(decoded?.userID)
       res.status(201).json({ access_token: accessToken })
+    } catch (error) {
+      next(createError(401))
+    }
+  }
+
+  async logout (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { access_token, refresh_token } = req.body
+
+      jwt.verify(access_token, ACCESS_TOKEN_SECRET!)
+      jwt.verify(refresh_token, REFRESH_TOKEN_SECRET!)
+      const verifiedAccessToken = decodeJWT(access_token)
+      const verifiedRefreshToken = decodeJWT(refresh_token)
+
+
+      if (verifiedAccessToken.userID !== verifiedRefreshToken.userID) {
+        next(createError(403))
+        return
+      }
+
+      const deletedToken = await deleteToken(refresh_token)
+      if (!deletedToken) {
+        next(createError(404))
+        return
+      }
+
+      res.status(204).end()
     } catch (error) {
       next(createError(401))
     }
