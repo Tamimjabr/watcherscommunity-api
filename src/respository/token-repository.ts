@@ -11,7 +11,6 @@ export const getToken = async (refreshToken: string) => {
   return token
 }
 
-
 export const getTokenByUserId = async (userID: string) => {
   const token = await TokenModel.findOne({ userID })
   return token

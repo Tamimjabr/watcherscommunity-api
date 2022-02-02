@@ -6,10 +6,6 @@ export type Payload = {
   userID: string
 }
 
-export const generateJWT = (payload: Payload, secret: string, life: string): string => {
-  return jwt.sign(payload, secret, { algorithm: 'HS256', expiresIn: life });
-}
-
 export const decodeJWT = (token: string): Payload => {
   return jwt.decode(token) as Payload;
 }
@@ -22,4 +18,8 @@ export const generateAccessRefreshTokens = (userID: string): { access_token: str
 
 export const generateAccessToken = (userID: string): string => {
   return generateJWT({ userID }, ACCESS_TOKEN_SECRET!, ACCESS_TOKEN_LIFE!)
+}
+
+const generateJWT = (payload: Payload, secret: string, life: string): string => {
+  return jwt.sign(payload, secret, { algorithm: 'HS256', expiresIn: life });
 }
