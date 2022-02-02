@@ -1,7 +1,7 @@
 import { addToken, deleteToken, getToken, getTokenByUserId } from './../respository/token-repository';
 import createError from 'http-errors';
 import { generateJWT, Payload, decodeJWT, generateAccessRefreshTokens, generateAccessToken } from './../helpers/jwt-generator';
-import { addUser, authorizeUser, getUserById } from './../respository/auth-respository';
+import { addUser, authorizeUser, getUserById } from '../respository/user-respository';
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express'
 import ConflictError from '../errors/ConflictError';
