@@ -1,5 +1,5 @@
 import InvalidCredentialsError from "../errors/InvalidCredentialsError"
-import InvalidUserIDError from "../errors/InvalidUserId"
+import InvalidUserIDError from "../errors/InvalidUserID"
 import { IUser, UserModel } from "../models/user"
 
 export const addUser = async (user: IUser) => {
