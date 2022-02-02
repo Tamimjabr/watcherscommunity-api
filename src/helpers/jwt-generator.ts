@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_LIFE, REFRESH_TOKEN_SECRET, REFRESH_TOKEN_LIFE } = process.env
+const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_LIFE,
+  REFRESH_TOKEN_SECRET, REFRESH_TOKEN_LIFE } = process.env
 
 export type Payload = {
   userID: string

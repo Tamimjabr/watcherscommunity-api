@@ -29,10 +29,13 @@ const UserSchema: Schema<IUserDocument> = new Schema(
       type: String,
       minlength: [8, 'Passowrd must be at least 8 characters long'],
       required: [true, 'Password is required']
-    }, 
+    },
     preferredCurrency: {
       type: String,
-      enum: currenciesNames,
+      enum: {
+        values: currenciesNames,
+        message: `{VALUE} is not a valid currency, supported currencies are: ${currenciesNames.join(', ')}`
+      },
       default: 'eur'
     }
   },
