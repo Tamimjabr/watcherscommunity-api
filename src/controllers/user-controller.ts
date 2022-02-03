@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
 import ValidationError from '../errors/ValidationError';
+import { CustomRequest } from '../middlewares/authorization-middleware';
 import { updatePreferredCurrency } from '../respository/user-respository'
 
 export class UserController {
 
-  async updatePreferredCurrency (req: Request, res: Response, next: NextFunction) {
+  async updatePreferredCurrency (req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      const userID = req.params.id
+      const userID = req.user?.userID || ''
       const currency = req.body.currency as string
-      console.log(userID, currency);
       await updatePreferredCurrency(userID, currency)
 
       res.status(204).end()
