@@ -1,13 +1,13 @@
-; import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { currenciesNames } from "../data/supported-currencies";
 
-export interface IAccount {
+export interface IPorfile {
   userID: string;
   wallets: string[];
   preferredCurrency: string;
 }
 
-const AccountSchema: Schema = new Schema(
+const PorfileSchema: Schema = new Schema(
   {
     userID: {
       type: Schema.Types.ObjectId,
@@ -17,6 +17,7 @@ const AccountSchema: Schema = new Schema(
       type: [{
         type: String,
       }],
+      default: []
     },
     preferredCurrency: {
       type: String,
@@ -32,4 +33,4 @@ const AccountSchema: Schema = new Schema(
 }
 )
 
-export const AccountModel = mongoose.model('Account', AccountSchema)
+export const ProfileModel = mongoose.model('Porfile', PorfileSchema)

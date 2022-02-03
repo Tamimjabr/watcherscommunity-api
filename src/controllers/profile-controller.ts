@@ -1,9 +1,21 @@
+import { getExistedProfileOrCreateOne } from './../respository/profile-repository';
 import { Response, NextFunction } from 'express'
 import ValidationError from '../errors/ValidationError';
 import { CustomRequest } from '../middlewares/authorization-middleware';
-import { updatePreferredCurrency } from '../respository/wallet-repository';
+import { updatePreferredCurrency } from '../respository/profile-repository';
 
-export class UserController {
+export class ProfileController {
+  async getPreferredCurrency (req: CustomRequest, res: Response, next: NextFunction) {
+    try {
+      const userID = req.user?.userID || ''
+      const profile = await getExistedProfileOrCreateOne(userID)
+      res.json({
+        preferredCurrency: profile.preferredCurrency
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
 
   async updatePreferredCurrency (req: CustomRequest, res: Response, next: NextFunction) {
     try {
@@ -11,7 +23,9 @@ export class UserController {
       const currency = req.body.currency as string
       await updatePreferredCurrency(userID, currency)
 
-      res.status(204).end()
+      res.status(200).json({
+        url: `/api/v1/user/profile/preferred-currency`
+      })
     } catch (error: any) {
       let err = error
       if (error.name === 'ValidationError') {

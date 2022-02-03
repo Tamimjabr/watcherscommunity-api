@@ -1,6 +1,6 @@
 import express from 'express'
 import { router as authRouter } from './auth-router'
-import { router as userRouter } from './user-router'
+import { router as userRouter } from './profile-router'
 
 export const router = express.Router()
 
@@ -9,4 +9,4 @@ router.get('/', (req, res) => {
 })
 
 router.use('/auth', authRouter)
-router.use('/users', userRouter)
+router.use('/user/profile', userRouter)
