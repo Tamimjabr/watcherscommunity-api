@@ -1,5 +1,8 @@
 declare namespace Express {
   interface Request {
-    jwt?: any
+    jwt?: any,
+    user?: {
+      userID: string
+    }
   }
 }
