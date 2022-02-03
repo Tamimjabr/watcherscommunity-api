@@ -1,11 +1,11 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export interface IToken {
   refreshToken: string;
   userID: string;
 }
 
-const tokenSchema = new Schema(
+const TokenSchema: Schema = new Schema(
   {
     refreshToken: {
       type: String,
@@ -24,9 +24,9 @@ const tokenSchema = new Schema(
   }
 )
 // remove tokens from DB on expiration (half year)
-tokenSchema.index(
+TokenSchema.index(
   { createdAt: 1 },
   { expireAfterSeconds: 15778463 }
 )
 
-export const TokenModel = mongoose.model('Token', tokenSchema)
+export const TokenModel = mongoose.model('Token', TokenSchema)

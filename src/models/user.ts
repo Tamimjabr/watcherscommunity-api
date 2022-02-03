@@ -1,14 +1,12 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import validator from 'validator'
 import bcrypt from "bcrypt";
-import { currenciesNames } from "../data/supported-currencies";
 
 const { isEmail } = validator
 
 export interface IUser {
   email: string;
   password: string;
-  preferredCurrency?: string;
 }
 
 interface IUserDocument extends IUser, Document {
@@ -29,14 +27,6 @@ const UserSchema: Schema<IUserDocument> = new Schema(
       type: String,
       minlength: [8, 'Passowrd must be at least 8 characters long'],
       required: [true, 'Password is required']
-    },
-    preferredCurrency: {
-      type: String,
-      enum: {
-        values: currenciesNames,
-        message: `{VALUE} is not a valid currency, supported currencies are: ${currenciesNames.join(', ')}`
-      },
-      default: 'eur'
     }
   },
   {

@@ -1,5 +1,4 @@
 import InvalidCredentialsError from "../errors/InvalidCredentialsError"
-import InvalidUserIDError from "../errors/InvalidUserID"
 import { IUser, UserModel } from "../models/user"
 
 export const addUser = async (user: IUser) => {
@@ -27,14 +26,4 @@ export const authorizeUser = async (email: string, password: string) => {
     }
   }
   throw new InvalidCredentialsError()
-}
-
-export const updatePreferredCurrency = async (userID: string, currency: string) => {
-  const user = await getUserById(userID)
-  if (user) {
-    user.preferredCurrency = currency
-    await user.save()
-  } else {
-    throw new InvalidUserIDError()
-  }
 }
