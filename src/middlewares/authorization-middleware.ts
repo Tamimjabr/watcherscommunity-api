@@ -1,10 +1,16 @@
 import createError from 'http-errors';
 import jwt from 'jsonwebtoken';
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response, Request } from "express";
 import InvalidTokenError from "../errors/InvalidToken";
 
+export interface CustomRequest extends Request {
+  jwt?: any,
+  user?: {
+    userID: string
+  }
+}
 
-export const authorizeJWT = (req: Request, res: Response, next: NextFunction) => {
+export const authorizeJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization?.split(' ')
 
   if (authorization?.[0] !== 'Bearer') {

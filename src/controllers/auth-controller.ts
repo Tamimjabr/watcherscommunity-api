@@ -79,7 +79,6 @@ export class AuthController {
       const verifiedAccessToken = decodeJWT(access_token)
       const verifiedRefreshToken = decodeJWT(refresh_token)
 
-
       if (verifiedAccessToken.userID !== verifiedRefreshToken.userID) {
         next(createError(403))
         return
