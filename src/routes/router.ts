@@ -8,6 +8,6 @@ router.get('/', (req: Request, res: Response) => {
   res.send('Welcome to our API')
 })
 
-router.use('/api/v1', v1Router)
+router.use('/api', v1Router)
 
 router.use('*', (req: Request, res: Response, next: NextFunction) => next(createError(404)))

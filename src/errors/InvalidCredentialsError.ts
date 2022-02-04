@@ -3,7 +3,7 @@ export default class InvalidCredentialsError extends Error {
   message: string
   stack: string | undefined
 
-  constructor(message: string = 'Invalid credentials') {
+  constructor(message: string = 'Unauthorized. Invalid credentials') {
     super(message)
     this.message = message
     this.status = 401

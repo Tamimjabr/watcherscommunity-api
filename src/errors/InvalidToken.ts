@@ -4,7 +4,7 @@ export default class InvalidTokenError extends Error {
   stack: string | undefined
 
   constructor(tokenType: string) {
-    const message = `No valid ${tokenType} token`
+    const message = `Unauthorized. No valid ${tokenType} token`
     super(message)
     this.message = message
     this.status = 401
