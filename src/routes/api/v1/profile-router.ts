@@ -21,9 +21,9 @@ router.get('/wallets', (req, res, next) => {
 })
 
 router.post('/wallets', (req, res, next) => {
-  controller.addWallet(req, res, next)
+  controller.addWalletToPorfile(req, res, next)
 })
 
 router.delete('/wallets', (req, res, next) => {
-  controller.deleteWallet(req, res, next)
+  controller.deleteWalletFromProfile(req, res, next)
 })
