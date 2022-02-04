@@ -1208,7 +1208,7 @@
 			"name": "User",
 			"item": [
 				{
-					"name": "/user/profile/preferred-currency",
+					"name": "/users/{id}/profile/preferred-currency",
 					"item": [
 						{
 							"name": "need logged in user",
@@ -1263,12 +1263,13 @@
 											}
 										},
 										"url": {
-											"raw": "{{base_url}}{{sub_uri}}/user/profile/preferred-currency",
+											"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/preferred-currency",
 											"host": [
 												"{{base_url}}{{sub_uri}}"
 											],
 											"path": [
-												"user",
+												"users",
+												"{{user_id}}",
 												"profile",
 												"preferred-currency"
 											]
@@ -1325,12 +1326,13 @@
 											}
 										},
 										"url": {
-											"raw": "{{base_url}}{{sub_uri}}/user/profile/preferred-currency",
+											"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/preferred-currency",
 											"host": [
 												"{{base_url}}{{sub_uri}}"
 											],
 											"path": [
-												"user",
+												"users",
+												"{{user_id}}",
 												"profile",
 												"preferred-currency"
 											]
@@ -1385,12 +1387,13 @@
 											}
 										},
 										"url": {
-											"raw": "{{base_url}}{{sub_uri}}/user/profile/preferred-currency",
+											"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/preferred-currency",
 											"host": [
 												"{{base_url}}{{sub_uri}}"
 											],
 											"path": [
-												"user",
+												"users",
+												"{{user_id}}",
 												"profile",
 												"preferred-currency"
 											]
@@ -1508,12 +1511,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}{{sub_uri}}/user/profile/preferred-currency",
+									"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/preferred-currency",
 									"host": [
 										"{{base_url}}{{sub_uri}}"
 									],
 									"path": [
-										"user",
+										"users",
+										"{{user_id}}",
 										"profile",
 										"preferred-currency"
 									]
@@ -1568,12 +1572,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}{{sub_uri}}/user/profile/preferred-currency",
+									"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/preferred-currency",
 									"host": [
 										"{{base_url}}{{sub_uri}}"
 									],
 									"path": [
-										"user",
+										"users",
+										"{{user_id}}",
 										"profile",
 										"preferred-currency"
 									]
@@ -1629,12 +1634,13 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{base_url}}{{sub_uri}}/user/profile/wallets",
+											"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/wallets",
 											"host": [
 												"{{base_url}}{{sub_uri}}"
 											],
 											"path": [
-												"user",
+												"users",
+												"{{user_id}}",
 												"profile",
 												"wallets"
 											]
@@ -1691,12 +1697,13 @@
 											}
 										},
 										"url": {
-											"raw": "{{base_url}}{{sub_uri}}/user/profile/wallets",
+											"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/wallets",
 											"host": [
 												"{{base_url}}{{sub_uri}}"
 											],
 											"path": [
-												"user",
+												"users",
+												"{{user_id}}",
 												"profile",
 												"wallets"
 											]
@@ -1751,12 +1758,13 @@
 											}
 										},
 										"url": {
-											"raw": "{{base_url}}{{sub_uri}}/user/profile/wallets",
+											"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/wallets",
 											"host": [
 												"{{base_url}}{{sub_uri}}"
 											],
 											"path": [
-												"user",
+												"users",
+												"{{user_id}}",
 												"profile",
 												"wallets"
 											]
@@ -1865,12 +1873,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}{{sub_uri}}/user/profile/wallets",
+									"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/wallets",
 									"host": [
 										"{{base_url}}{{sub_uri}}"
 									],
 									"path": [
-										"user",
+										"users",
+										"{{user_id}}",
 										"profile",
 										"wallets"
 									]
@@ -1916,12 +1925,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}{{sub_uri}}/user/profile/wallets",
+									"raw": "{{base_url}}{{sub_uri}}/users/{{user_id}}/profile/wallets",
 									"host": [
 										"{{base_url}}{{sub_uri}}"
 									],
 									"path": [
-										"user",
+										"users",
+										"{{user_id}}",
 										"profile",
 										"wallets"
 									]

@@ -5,4 +5,4 @@ import { router as userRouter } from './profile-router'
 export const router = express.Router()
 
 router.use('/auth', authRouter)
-router.use('/user/profile', userRouter)
+router.use('/users/:id/profile', userRouter)
