@@ -3,18 +3,15 @@ import { IUser, UserModel } from "../models/user"
 
 export const addUser = async (user: IUser) => {
   const newUser = new UserModel(user)
-  const savedUser = await newUser.save()
-  return savedUser
+  return await newUser.save()
 }
 
 export const getUserByEmail = async (email: string) => {
-  const user = await UserModel.findOne({ email })
-  return user
+  return await UserModel.findOne({ email })
 }
 
 export const getUserById = async (id: string) => {
-  const user = await UserModel.findById({ _id: id })
-  return user
+  return await UserModel.findById({ _id: id })
 }
 
 export const authorizeUser = async (email: string, password: string) => {

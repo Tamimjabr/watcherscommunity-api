@@ -179,7 +179,7 @@
 										"exec": [
 											"// make sure the user is registered\r",
 											"const firstUserRegRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -240,7 +240,7 @@
 										"exec": [
 											"// make sure the user is registered\r",
 											"const firstUserRegRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -611,7 +611,7 @@
 									"script": {
 										"exec": [
 											"const postRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -627,7 +627,7 @@
 											"  console.log(error ? error : response.json());\r",
 											"    // login the user to get tokens\r",
 											"  const postRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -641,10 +641,12 @@
 											"};\r",
 											"pm.sendRequest(postRequest, (error, response) => {\r",
 											"  console.log(error ? error : response.json());\r",
+											"  if(!error){\r",
 											"  const jsonData = response.json()\r",
 											"  const {access_token, refresh_token}= jsonData\r",
 											"  pm.environment.set('access_token_to_logout', access_token)\r",
 											"  pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"  }\r",
 											"});\r",
 											"});"
 										],
@@ -750,7 +752,7 @@
 									"script": {
 										"exec": [
 											"const postRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -766,7 +768,7 @@
 											"  console.log(error ? error : response.json());\r",
 											"    // login the user to get tokens\r",
 											"  const postRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -837,7 +839,7 @@
 									"script": {
 										"exec": [
 											"const postRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -853,7 +855,7 @@
 											"  console.log(error ? error : response.json());\r",
 											"  // login the user to get tokens\r",
 											"  const postRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -924,7 +926,7 @@
 									"script": {
 										"exec": [
 											"const postRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -940,7 +942,7 @@
 											"  console.log(error ? error : response.json());\r",
 											"// login the user to get tokens\r",
 											"  const postRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -1004,14 +1006,14 @@
 							"response": []
 						},
 						{
-							"name": "403 logout access token from another user Copy",
+							"name": "403 logout access token from another user",
 							"event": [
 								{
 									"listen": "prerequest",
 									"script": {
 										"exec": [
 											"const firstUserRegRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -1027,7 +1029,7 @@
 											"  console.log(error ? error : response.json());\r",
 											"// login the user to get tokens\r",
 											"  const firstUserLoginRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -1050,7 +1052,7 @@
 											"\r",
 											"// the second user\r",
 											"const secondUserRegRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/register',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -1066,7 +1068,7 @@
 											"  console.log(error ? error : response.json());\r",
 											"// login the user to get tokens\r",
 											"  const secondUserLoginRequest = {\r",
-											"  url: 'http://localhost:5002/api/v1/auth/login',\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
 											"  method: 'POST',\r",
 											"  header: {\r",
 											"    'Content-Type': 'application/json',\r",
@@ -1124,6 +1126,495 @@
 										"v1",
 										"auth",
 										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "/user/account/preferred-currency",
+					"item": [
+						{
+							"name": "200 get user preferred currency",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const postRequest = {\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"    // login the user to get tokens\r",
+											"  const postRequest = {\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"console.log(error ? error : response.json());\r",
+											"const jsonData = response.json()\r",
+											"const {access_token, refresh_token}= jsonData\r",
+											"pm.environment.set('access_token_to_logout', access_token)\r",
+											"pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"// get the userID from the token\r",
+											"const payload = access_token.split('.')[1]\r",
+											"const parsed = JSON.parse(atob(payload)) \r",
+											"console.log(parsed.userID)\r",
+											"pm.environment.set('user_id', parsed.userID)\r",
+											"});\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successfully getting user's preferred currency\", function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token_to_logout}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/user/profile/preferred-currency",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"profile",
+										"preferred-currency"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "200 change currency for user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const postRequest = {\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"    // login the user to get tokens\r",
+											"  const postRequest = {\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"console.log(error ? error : response.json());\r",
+											"const jsonData = response.json()\r",
+											"const {access_token, refresh_token}= jsonData\r",
+											"pm.environment.set('access_token_to_logout', access_token)\r",
+											"pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"// get the userID from the token\r",
+											"const payload = access_token.split('.')[1]\r",
+											"const parsed = JSON.parse(atob(payload)) \r",
+											"console.log(parsed.userID)\r",
+											"pm.environment.set('user_id', parsed.userID)\r",
+											"});\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successfully change preferred currency with correct userID and accepted currency\", function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.all.keys('url');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token_to_logout}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"currency\":\"btc\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/user/profile/preferred-currency",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"profile",
+										"preferred-currency"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 invalid access token",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const postRequest = {\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"    // login the user to get tokens\r",
+											"  const postRequest = {\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"console.log(error ? error : response.json());\r",
+											"const jsonData = response.json()\r",
+											"const {access_token, refresh_token}= jsonData\r",
+											"pm.environment.set('access_token_to_logout', access_token)\r",
+											"pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"// get the userID from the token\r",
+											"const payload = access_token.split('.')[1]\r",
+											"const parsed = JSON.parse(atob(payload)) \r",
+											"console.log(parsed.userID)\r",
+											"pm.environment.set('user_id', parsed.userID)\r",
+											"});\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Forbidden, trying change currency with invalid access token\", function(){\r",
+											"    pm.response.to.have.status(403)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Iaminvalidaccesstoken",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"currency\":\"usd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/user/profile/preferred-currency",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"profile",
+										"preferred-currency"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "401 without authorization header",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Unauthorized trying to change preferred currency without access token\", function(){\r",
+											"    pm.response.to.have.status(401)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"currency\":\"sek\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/user/profile/preferred-currency",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"profile",
+										"preferred-currency"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 unsupported currency",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const postRequest = {\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/register`,\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"  console.log(error ? error : response.json());\r",
+											"    // login the user to get tokens\r",
+											"  const postRequest = {\r",
+											"  url: `${pm.environment.get('base_url')}/api/v1/auth/login`,\r",
+											"  method: 'POST',\r",
+											"  header: {\r",
+											"    'Content-Type': 'application/json',\r",
+											"    'X-Foo': 'bar'\r",
+											"  },\r",
+											"  body: {\r",
+											"    mode: 'raw',\r",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('user_email_to_logout'),\r",
+											"  \"password\": pm.environment.get('user_password_to_logout')})\r",
+											"  }\r",
+											"};\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"console.log(error ? error : response.json());\r",
+											"const jsonData = response.json()\r",
+											"const {access_token, refresh_token}= jsonData\r",
+											"pm.environment.set('access_token_to_logout', access_token)\r",
+											"pm.environment.set('refresh_token_to_logout',refresh_token)\r",
+											"// get the userID from the token\r",
+											"const payload = access_token.split('.')[1]\r",
+											"const parsed = JSON.parse(atob(payload)) \r",
+											"console.log(parsed.userID)\r",
+											"pm.environment.set('user_id', parsed.userID)\r",
+											"});\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"400 trying to change preferred currency with correct userID, but unsupported currency\", function(){\r",
+											"    pm.response.to.have.status(400)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token_to_logout}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"currency\":\"syp\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/user/profile/preferred-currency",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"profile",
+										"preferred-currency"
 									]
 								}
 							},
