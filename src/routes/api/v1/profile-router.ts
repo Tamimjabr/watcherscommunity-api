@@ -14,3 +14,16 @@ router.get('/preferred-currency', (req, res, next) => {
 router.put('/preferred-currency', (req, res, next) => {
   controller.updatePreferredCurrency(req, res, next)
 })
+
+
+router.get('/wallets', (req, res, next) => {
+  controller.getWallets(req, res, next)
+})
+
+router.post('/wallets', (req, res, next) => {
+  controller.addWallet(req, res, next)
+})
+
+router.delete('/wallets', (req, res, next) => {
+  controller.deleteWallet(req, res, next)
+})

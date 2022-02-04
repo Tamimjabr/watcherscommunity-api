@@ -22,9 +22,9 @@ export class ProfileController {
       const userID = req.user?.userID || ''
       const currency = req.body.currency as string
       await updatePreferredCurrency(userID, currency)
-
+      
       res.status(200).json({
-        url: `/api/v1/user/profile/preferred-currency`
+        url: `${req.protocol}://${req.get('host')}${req.originalUrl}`
       })
     } catch (error: any) {
       let err = error
