@@ -57,7 +57,7 @@ export class ProfileController {
       const walletID = req.body.wallet as string
       await addWallet(userID, walletID)
 
-      res.status(200).json({
+      res.status(201).json({
         url: `${req.protocol}://${req.get('host')}${req.originalUrl}`,
         walletID
       })

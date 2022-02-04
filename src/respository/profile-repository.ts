@@ -9,6 +9,7 @@ export const updatePreferredCurrency = async (userID: string, currency: string) 
 export const addWallet = async (userID: string, wallet: string) => {
   const profile = await getExistedProfileOrCreateOne(userID)
   profile.wallets.push(wallet)
+  profile.wallets = [...new Set(profile.wallets)]
   return await profile.save()
 }
 
