@@ -26,7 +26,8 @@ const WebhookSchema: Schema = new Schema(
       enum: {
         values: supportedEvents,
         message: `{VALUE} is not a valid event, supported events are: ${supportedEvents.join(', ')}`
-      }
+      },
+      default: []
     }
   },
   {
