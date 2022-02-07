@@ -1,3 +1,3 @@
 export const supportedEvents = [
-  'newUser'
+  'loginAttempt'
 ]

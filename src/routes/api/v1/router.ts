@@ -7,4 +7,4 @@ export const router = express.Router()
 
 router.use('/auth', authRouter)
 router.use('/users/:id/profile', userRouter)
-router.use('/webhooks', webhookRouter)
+router.use('/users/:id/webhooks', webhookRouter)

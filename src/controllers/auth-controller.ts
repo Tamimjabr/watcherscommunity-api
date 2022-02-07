@@ -21,11 +21,6 @@ export class AuthController {
         password: req.body.password
       })
 
-      const privatePartEmail = user.email.slice(1, user.email.indexOf('@'))
-      const privatePartReplacement = privatePartEmail.replace(/./g, '*')
-      const hiddenEmail = user.email.slice(0, 1) + privatePartReplacement + user.email.slice(user.email.indexOf('@'))
-      emitter.emit('newUser', hiddenEmail)
-      
       res.status(201).json({
         userID: user._id
       })
@@ -50,6 +45,8 @@ export class AuthController {
       const user = await authorizeUser(email, password)
       const tokens = generateAccessRefreshTokens(user._id)
       await addToken({ userID: user._id, refreshToken: tokens.refresh_token })
+      emitter.emit('loginAttempt', user._id)
+      
       res.status(200).json(tokens)
     } catch (error: any) {
       let err = error

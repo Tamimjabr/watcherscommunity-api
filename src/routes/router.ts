@@ -10,4 +10,13 @@ router.get('/', (req: Request, res: Response) => {
 
 router.use('/api', v1Router)
 
+
+// ? code used to test webhook
+// router.post('/api', (req: Request, res: Response, next: NextFunction) => {
+//   res.send({
+//     date: req.body.date,
+//     event: req.body.event,
+//   })
+// })
+
 router.use('*', (req: Request, res: Response, next: NextFunction) => next(createError(404)))
