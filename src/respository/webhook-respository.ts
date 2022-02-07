@@ -1,23 +1,35 @@
-import { WebhookModel } from './../models/webhook';
+import { UserWebhookModel } from './../models/webhook';
 import { IWebhook } from "../models/webhook";
 
 
-export const addWebhook = async (webhook: IWebhook) => {
-  const userWebhook = await getExistedUserWebhookOrCreateOne(webhook)
-  userWebhook.url = webhook.url
-  userWebhook.events = userWebhook.events.concat(webhook.events)
-  userWebhook.events = [...new Set(userWebhook.events)]
+export const addWebhook = async (userID: string, webhook: IWebhook) => {
+  const userWebhook = await getExistedUserWebhookOrCreateOne(userID)
+  const existedWebhookForEvent = userWebhook.webhooks.find((existedWebhook: IWebhook) => existedWebhook.event === webhook.event)
+
+  if (existedWebhookForEvent) {
+    existedWebhookForEvent.url = webhook.url
+  } else {
+    userWebhook.webhooks.push(webhook)
+  }
   return await userWebhook.save()
 }
 
-export const getWebhookByUserID = async (userID: string) => {
-  return await WebhookModel.findOne({ userID })
+export const getUserWebhookForSpecificEvent = async (userID: string, event: string) => {
+  const userWebhook = await getWebhookByUserID(userID)
+  if (userWebhook) {
+    return userWebhook.webhooks.find((webhook: IWebhook) => webhook.event === event)
+  }
+  return null
 }
 
-export const getExistedUserWebhookOrCreateOne = async (webhook: IWebhook) => {
-  const userWebhook = await getWebhookByUserID(webhook.userID)
+const getWebhookByUserID = async (userID: string) => {
+  return await UserWebhookModel.findOne({ userID })
+}
+
+const getExistedUserWebhookOrCreateOne = async (userID: string) => {
+  const userWebhook = await getWebhookByUserID(userID)
   if (!userWebhook) {
-    const newWebhook = new WebhookModel(webhook)
+    const newWebhook = new UserWebhookModel({ userID })
     return await newWebhook.save()
   }
   return userWebhook

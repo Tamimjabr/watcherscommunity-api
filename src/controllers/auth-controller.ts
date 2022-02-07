@@ -45,8 +45,8 @@ export class AuthController {
       const user = await authorizeUser(email, password)
       const tokens = generateAccessRefreshTokens(user._id)
       await addToken({ userID: user._id, refreshToken: tokens.refresh_token })
-      emitter.emit('loginAttempt', user._id)
-      
+      emitter.emit('LoginAttempt', user._id)
+
       res.status(200).json(tokens)
     } catch (error: any) {
       let err = error

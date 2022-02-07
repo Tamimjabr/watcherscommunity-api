@@ -1,3 +1,3 @@
-export const supportedEvents = [
-  'loginAttempt'
+export const SupportedEvents = [
+  'LoginAttempt'
 ]

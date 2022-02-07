@@ -1,10 +1,14 @@
+import { SupportedEvents } from './../data/supprted-events-webhook';
 import mongoose, { Schema } from "mongoose";
-import { supportedEvents } from "../data/supprted-events-webhook";
+
+export interface IUserWebhook {
+  userID: string;
+  webhooks: IWebhook[];
+}
 
 export interface IWebhook {
   url: string;
-  userID: string;
-  events: string[];
+  event: string;
 }
 
 const WebhookSchema: Schema = new Schema(
@@ -14,19 +18,26 @@ const WebhookSchema: Schema = new Schema(
       required: true,
       trim: true
     },
+    event: {
+      type: String,
+      enum: {
+        values: SupportedEvents,
+        message: `{VALUE} is not a valid event, supported events are: ${SupportedEvents.join(', ')}`
+      },
+      required: true
+    }
+  }
+)
+
+const UserWebhookSchema: Schema = new Schema(
+  {
     userID: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true
     },
-    events: {
-      type: [{
-        type: String,
-      }],
-      enum: {
-        values: supportedEvents,
-        message: `{VALUE} is not a valid event, supported events are: ${supportedEvents.join(', ')}`
-      },
+    webhooks: {
+      type: [WebhookSchema],
       default: []
     }
   },
@@ -37,4 +48,4 @@ const WebhookSchema: Schema = new Schema(
 )
 
 
-export const WebhookModel = mongoose.model('Webhook', WebhookSchema)
+export const UserWebhookModel = mongoose.model('Webhook', UserWebhookSchema)

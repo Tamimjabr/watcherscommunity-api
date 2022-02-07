@@ -1,23 +1,23 @@
-
+import { getUserWebhookForSpecificEvent } from './../respository/webhook-respository';
 import axios from "axios";
 import EventEmitter from "events";
 import moment from "moment";
-import { getWebhookByUserID } from "../respository/webhook-respository";
+import { IWebhook } from "../models/webhook";
 
 export const emitter = new EventEmitter();
 
 export const addEventListener = () => {
-  emitter.on("loginAttempt", async (userID) => {
+  emitter.on("LoginAttempt", async (userID) => {
     try {
-      const userWebhook = await getWebhookByUserID(userID)
-      if (userWebhook && userWebhook.events.includes("loginAttempt")) {
-        await postLoginAttemptHook(userWebhook.url)
-        console.log(`Webhook sent to ${userWebhook.url}`)
+      const userWebhookForEvent: IWebhook = await getUserWebhookForSpecificEvent(userID, "LoginAttempt")
+      if (userWebhookForEvent) {
+        await postLoginAttemptHook(userWebhookForEvent.url)
+        console.log(`Webhook sent to ${userWebhookForEvent.url}`)
       } else {
         console.log("No webhook registered for this event")
       }
     } catch (error: any) {
-      console.log('Faild to send webhook to the given url')
+      console.log('Failed to send webhook to the given url')
     }
   })
 }

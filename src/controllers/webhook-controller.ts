@@ -9,10 +9,8 @@ export class WebhookController {
       const event = req.body.event as string
       const url = req.body.url as string
       const userID = req.user?.userID || ''
-      await addWebhook({
-        userID,
-        events: [event],
-        url,
+      await addWebhook(userID, {
+        event, url
       })
       res.status(201).json({
         message: 'Webhook registered successfully'
