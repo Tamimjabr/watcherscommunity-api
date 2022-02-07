@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+import { Response, NextFunction } from 'express'
 import ValidationError from '../errors/ValidationError'
 import { CustomRequest } from '../middlewares/authorization-middleware'
 import { addWebhook } from '../respository/webhook-respository'

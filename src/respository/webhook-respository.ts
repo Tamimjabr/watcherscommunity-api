@@ -5,7 +5,7 @@ import { IWebhook } from "../models/webhook";
 export const addWebhook = async (webhook: IWebhook) => {
   const userWebhook = await getExistedUserWebhookOrCreateOne(webhook)
   userWebhook.url = webhook.url
-  userWebhook.events.concat(webhook.events)
+  userWebhook.events = userWebhook.events.concat(webhook.events)
   userWebhook.events = [...new Set(userWebhook.events)]
   return await userWebhook.save()
 }
