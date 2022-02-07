@@ -1,3 +1,4 @@
+import { emitter } from './../helpers/event-emitter';
 import { addToken, deleteToken, getToken, getTokenByUserId } from './../respository/token-repository';
 import createError from 'http-errors';
 import { Payload, decodeJWT, generateAccessRefreshTokens, generateAccessToken } from './../helpers/jwt-generator';
@@ -20,6 +21,11 @@ export class AuthController {
         password: req.body.password
       })
 
+      const privatePartEmail = user.email.slice(1, user.email.indexOf('@'))
+      const privatePartReplacement = privatePartEmail.replace(/./g, '*')
+      const hiddenEmail = user.email.slice(0, 1) + privatePartReplacement + user.email.slice(user.email.indexOf('@'))
+      emitter.emit('newUser', hiddenEmail)
+      
       res.status(201).json({
         userID: user._id
       })
