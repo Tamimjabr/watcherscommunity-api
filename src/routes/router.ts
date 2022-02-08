@@ -13,6 +13,10 @@ router.use('/api', v1Router)
 
 // ? code used to test webhook
 // router.post('/api', (req: Request, res: Response, next: NextFunction) => {
+//   console.log(req.body)
+//   console.log(req.headers)
+//   console.log(req.headers['x-watcherscommunity-secret'])
+
 //   res.send({
 //     date: req.body.date,
 //     event: req.body.event,
