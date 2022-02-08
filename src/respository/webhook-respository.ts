@@ -8,6 +8,7 @@ export const addWebhook = async (userID: string, webhook: IWebhook) => {
 
   if (existedWebhookForEvent) {
     existedWebhookForEvent.url = webhook.url
+    existedWebhookForEvent.secret = webhook.secret
   } else {
     userWebhook.webhooks.push(webhook)
   }

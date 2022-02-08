@@ -5,12 +5,12 @@ import bcrypt from "bcrypt";
 const { isEmail } = validator
 
 export interface IUser {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 interface IUserDocument extends IUser, Document {
-  checkPassword: (password: string) => Promise<boolean>;
+  checkPassword: (password: string) => Promise<boolean>
 }
 
 const UserSchema: Schema<IUserDocument> = new Schema(
@@ -43,8 +43,8 @@ UserSchema.pre('save', async function preSave (this: IUserDocument, next) {
 })
 
 UserSchema.methods.checkPassword = async function (password: string) {
-  const result = await bcrypt.compare(password, this.password);
+  const result = await bcrypt.compare(password, this.password)
   return result;
 };
 
-export const UserModel = mongoose.model<IUserDocument>("User", UserSchema);
+export const UserModel = mongoose.model<IUserDocument>("User", UserSchema)

@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface IToken {
-  refreshToken: string;
-  userID: string;
+  refreshToken: string
+  userID: string
 }
 
 const TokenSchema: Schema = new Schema(

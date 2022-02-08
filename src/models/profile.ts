@@ -2,9 +2,9 @@ import mongoose, { Schema } from "mongoose";
 import { currenciesNames } from "../data/supported-currencies";
 
 export interface IPorfile {
-  userID: string;
-  wallets: string[];
-  preferredCurrency: string;
+  userID: string
+  wallets: string[]
+  preferredCurrency: string
 }
 
 const PorfileSchema: Schema = new Schema(

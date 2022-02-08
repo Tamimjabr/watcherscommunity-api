@@ -6,11 +6,10 @@ import { addWebhook } from '../respository/webhook-respository'
 export class WebhookController {
   async register (req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      const event = req.body.event as string
-      const url = req.body.url as string
+      const { secret, event, url } = req.body
       const userID = req.user?.userID || ''
       await addWebhook(userID, {
-        event, url
+        event, url, secret
       })
       res.status(201).json({
         message: 'Webhook registered successfully'
