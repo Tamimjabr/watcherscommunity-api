@@ -11,8 +11,8 @@ export const addEventListener = () => {
     try {
       const userWebhookForEvent: IWebhook = await getUserWebhookForSpecificEvent(userID, "LoginAttempt")
       if (userWebhookForEvent) {
-        await postLoginAttemptHook(userWebhookForEvent.url)
-        console.log(`Webhook sent to ${userWebhookForEvent.url}`)
+        await postLoginAttemptHook(userWebhookForEvent.url, userWebhookForEvent.secret)
+        console.log(`Webhook sent to ${userWebhookForEvent.url, userWebhookForEvent.secret}`)
       } else {
         console.log("No webhook registered for this event")
       }
@@ -22,10 +22,14 @@ export const addEventListener = () => {
   })
 }
 
-const postLoginAttemptHook = async (url: string) => {
+const postLoginAttemptHook = async (url: string, secret: string) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-watcherscommunity-secret': secret
+  }
   const data = {
     event: "loginAttempt",
     date: moment().toISOString(),
   }
-  await axios.post(url, data)
+  await axios.post(url, data, { headers })
 }
