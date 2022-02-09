@@ -1689,7 +1689,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"wallet\":\"mywalletidishere/s565fd\"\r\n}",
+											"raw": "{\r\n    \"wallet\":\"mywalletidisheres565fd\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1934,6 +1934,343 @@
 										"{{user_id}}",
 										"profile",
 										"wallets"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Webhook",
+			"item": [
+				{
+					"name": "/users/{id}/webhooks/register",
+					"item": [
+						{
+							"name": "need logged in user",
+							"item": [
+								{
+									"name": "400 - register not supported event",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"400 - Trying to register webhook for not supported event\", function(){\r",
+													"    pm.response.to.have.status(400)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{webhook_access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"event\":\"newUser\",\r\n    \"url\": \"mywebsite.com/webhook/let-me-know\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}{{sub_uri}}/users/{{webhook_user_id}}/webhooks/register",
+											"host": [
+												"{{base_url}}{{sub_uri}}"
+											],
+											"path": [
+												"users",
+												"{{webhook_user_id}}",
+												"webhooks",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - register event successfully",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Register webhook for 'LoginAttempt' event successfully\", function(){\r",
+													"    pm.response.to.have.status(201)\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.all.keys('message');\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{webhook_access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"event\":\"LoginAttempt\",\r\n    \"url\": \"{{base_url}}/api\",\r\n    \"secret\":\"kksdafouiwerworeiwerjwebohh#!\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}{{sub_uri}}/users/{{webhook_user_id}}/webhooks/register",
+											"host": [
+												"{{base_url}}{{sub_uri}}"
+											],
+											"path": [
+												"users",
+												"{{webhook_user_id}}",
+												"webhooks",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "400 - without secret",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"400 registering webhook without secret\", function(){\r",
+													"    pm.response.to.have.status(400)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{webhook_access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"event\":\"LoginAttempt\",\r\n    \"url\": \"{{base_url}}/api\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}{{sub_uri}}/users/{{webhook_user_id}}/webhooks/register",
+											"host": [
+												"{{base_url}}{{sub_uri}}"
+											],
+											"path": [
+												"users",
+												"{{webhook_user_id}}",
+												"webhooks",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "400 - short secret",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"400 registering webhook with short secret\", function(){\r",
+													"    pm.response.to.have.status(400)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{webhook_access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"event\":\"LoginAttempt\",\r\n    \"url\": \"{{base_url}}/api\",\r\n    \"secret\":\"short\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}{{sub_uri}}/users/{{webhook_user_id}}/webhooks/register",
+											"host": [
+												"{{base_url}}{{sub_uri}}"
+											],
+											"path": [
+												"users",
+												"{{webhook_user_id}}",
+												"webhooks",
+												"register"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"const postRequest = {",
+											"  url: `${pm.environment.get('base_url')}/api/auth/register`,",
+											"  method: 'POST',",
+											"  header: {",
+											"    'Content-Type': 'application/json',",
+											"    'X-Foo': 'bar'",
+											"  },",
+											"  body: {",
+											"    mode: 'raw',",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('webhook_user_email'),",
+											"  \"password\": pm.environment.get('webhook_user_password')})",
+											"  }",
+											"};",
+											"pm.sendRequest(postRequest, (error, response) => {",
+											"  console.log(error ? error : response.json());",
+											"    // login the user to get tokens",
+											"  const postRequest = {",
+											"  url: `${pm.environment.get('base_url')}/api/auth/login`,",
+											"  method: 'POST',",
+											"  header: {",
+											"    'Content-Type': 'application/json',",
+											"    'X-Foo': 'bar'",
+											"  },",
+											"  body: {",
+											"    mode: 'raw',",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('webhook_user_email'),",
+											"  \"password\": pm.environment.get('webhook_user_password')})",
+											"  }",
+											"};",
+											"pm.sendRequest(postRequest, (error, response) => {",
+											"console.log(error ? error : response.json());",
+											"const jsonData = response.json()",
+											"const {access_token}= jsonData",
+											"pm.environment.set('webhook_access_token', access_token)",
+											"",
+											"// get the userID from the token",
+											"const payload = access_token.split('.')[1]",
+											"const parsed = JSON.parse(atob(payload)) ",
+											"console.log(parsed.userID)",
+											"pm.environment.set('webhook_user_id', parsed.userID)",
+											"});",
+											"});"
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "fire the event - LoginAttempt",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Login successfully with correct credentials\", function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.all.keys('access_token', 'refresh_token');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{webhook_user_email}}\",\r\n    \"password\":\"{{webhook_user_password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}{{sub_uri}}/auth/login",
+									"host": [
+										"{{base_url}}{{sub_uri}}"
+									],
+									"path": [
+										"auth",
+										"login"
 									]
 								}
 							},
