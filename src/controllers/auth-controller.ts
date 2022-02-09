@@ -22,6 +22,9 @@ export class AuthController {
       })
 
       res.status(201).json({
+        loginURL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'login')}`,
+        logoutURL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'logout')}`,
+        refreshURL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'refresh')}`,
         userID: user._id
       })
     } catch (error: any) {
@@ -45,7 +48,7 @@ export class AuthController {
       const user = await authorizeUser(email, password)
       const tokens = generateAccessRefreshTokens(user._id)
       await addToken({ userID: user._id, refreshToken: tokens.refresh_token })
-      emitter.emit('LoginAttempt', user._id)
+      emitter.emit('LoginEvent', user._id)
 
       res.status(200).json(tokens)
     } catch (error: any) {

@@ -24,7 +24,7 @@ export class ProfileController {
       await updatePreferredCurrency(userID, currency)
 
       res.status(200).json({
-        url: `${req.protocol}://${req.get('host')}${req.originalUrl}`
+        URL: `${req.protocol}://${req.get('host')}${req.originalUrl}`
       })
     } catch (error: any) {
       let err = error
@@ -58,7 +58,7 @@ export class ProfileController {
       await addWallet(userID, walletID)
 
       res.status(201).json({
-        url: `${req.protocol}://${req.get('host')}${req.originalUrl}`,
+        URL: `${req.protocol}://${req.get('host')}${req.originalUrl}`,
         walletID
       })
     } catch (error: any) {

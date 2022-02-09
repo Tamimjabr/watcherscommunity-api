@@ -1,3 +1,4 @@
 export const SupportedEvents = [
-  'LoginAttempt'
+  'LoginEvent'
 ]
+

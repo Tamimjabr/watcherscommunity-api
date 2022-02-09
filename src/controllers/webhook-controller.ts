@@ -1,4 +1,5 @@
 import { Response, NextFunction } from 'express'
+import { WebhookHeaders } from '../data/webhook-header'
 import ValidationError from '../errors/ValidationError'
 import { CustomRequest } from '../middlewares/authorization-middleware'
 import { addWebhook } from '../respository/webhook-respository'
@@ -12,7 +13,7 @@ export class WebhookController {
         event, url, secret
       })
       res.status(201).json({
-        message: 'Webhook registered successfully'
+        message: `Webhook registered successfully. Your secret will be available on the header ${WebhookHeaders.XWatchersCommunitySecret}`,
       })
     } catch (error: any) {
       let err = error
