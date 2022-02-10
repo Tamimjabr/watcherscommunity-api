@@ -44,7 +44,7 @@
 					"name": "/register",
 					"item": [
 						{
-							"name": "need registered user",
+							"name": "with register user script",
 							"item": [
 								{
 									"name": "409 trying inserting existed user",
@@ -161,7 +161,7 @@
 											"    pm.response.to.have.status(201)\r",
 											"    pm.response.to.not.be.error\r",
 											"    const jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('userID');\r",
+											"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('userID','links');\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -258,7 +258,7 @@
 					"name": "/login",
 					"item": [
 						{
-							"name": "need registered user",
+							"name": "with register user script",
 							"item": [
 								{
 									"name": "401 login - invalid password",
@@ -451,7 +451,7 @@
 													"pm.test(\"Login successfully with correct credentials\", function(){\r",
 													"    pm.response.to.have.status(200)\r",
 													"    const jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData).to.have.all.keys('access_token', 'refresh_token');\r",
+													"    pm.expect(jsonData).to.have.all.keys('access_token', 'refresh_token','links');\r",
 													"})"
 												],
 												"type": "text/javascript"
@@ -582,7 +582,7 @@
 					"name": "/refresh",
 					"item": [
 						{
-							"name": "need logged in user",
+							"name": "with register + login user script",
 							"item": [
 								{
 									"name": "201 new access token created",
@@ -603,7 +603,7 @@
 													"pm.test(\"Refresh successfully with correct refresh token\", function(){\r",
 													"    pm.response.to.have.status(201)\r",
 													"    const jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData).to.have.all.keys('access_token');\r",
+													"    pm.expect(jsonData).to.have.all.keys('access_token','links');\r",
 													"})"
 												],
 												"type": "text/javascript"
@@ -799,7 +799,7 @@
 					"name": "/logout",
 					"item": [
 						{
-							"name": "need logged in user",
+							"name": "with register + login user script",
 							"item": [
 								{
 									"name": "204 - logout user",
@@ -1211,7 +1211,7 @@
 					"name": "/users/{id}/profile/preferred-currency",
 					"item": [
 						{
-							"name": "need logged in user",
+							"name": "with register + login user script",
 							"item": [
 								{
 									"name": "200 get user preferred currency",
@@ -1296,7 +1296,7 @@
 													"pm.test(\"Successfully change preferred currency with correct userID and accepted currency\", function(){\r",
 													"    pm.response.to.have.status(200)\r",
 													"    const jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData).to.have.all.keys('url');\r",
+													"    pm.expect(jsonData).to.have.all.keys('URL');\r",
 													"})"
 												],
 												"type": "text/javascript"
@@ -1592,7 +1592,7 @@
 					"name": "/user/profile/wallets",
 					"item": [
 						{
-							"name": "need logged in user",
+							"name": "with register + login user script",
 							"item": [
 								{
 									"name": "200 get wallets",
@@ -1658,7 +1658,7 @@
 													"pm.test(\"Successfully add a wallet to wallets array for a user\", function(){\r",
 													"    pm.response.to.have.status(201)\r",
 													"    const jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData).to.have.all.keys('url','walletID');\r",
+													"    pm.expect(jsonData).to.have.all.keys('URL','walletID');\r",
 													"})"
 												],
 												"type": "text/javascript"
@@ -1950,7 +1950,7 @@
 					"name": "/users/{id}/webhooks/register",
 					"item": [
 						{
-							"name": "need logged in user",
+							"name": "with register + login user script",
 							"item": [
 								{
 									"name": "400 - register not supported event",
@@ -2036,7 +2036,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"event\":\"LoginAttempt\",\r\n    \"url\": \"{{base_url}}/api\",\r\n    \"secret\":\"kksdafouiwerworeiwerjwebohh#!\"\r\n}",
+											"raw": "{\r\n    \"event\":\"LoginEvent\",\r\n    \"url\": \"{{base_url}}/api\",\r\n    \"secret\":\"kksdafouiwerworeiwerjwebohh#!\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2088,7 +2088,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"event\":\"LoginAttempt\",\r\n    \"url\": \"{{base_url}}/api\"\r\n}",
+											"raw": "{\r\n    \"event\":\"LoginEvent\",\r\n    \"url\": \"{{base_url}}/api\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2140,7 +2140,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"event\":\"LoginAttempt\",\r\n    \"url\": \"{{base_url}}/api\",\r\n    \"secret\":\"short\"\r\n}",
+											"raw": "{\r\n    \"event\":\"LoginEvent\",\r\n    \"url\": \"{{base_url}}/api\",\r\n    \"secret\":\"short\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2244,7 +2244,7 @@
 											"pm.test(\"Login successfully with correct credentials\", function(){\r",
 											"    pm.response.to.have.status(200)\r",
 											"    const jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData).to.have.all.keys('access_token', 'refresh_token');\r",
+											"    pm.expect(jsonData).to.have.all.keys('access_token', 'refresh_token','links');\r",
 											"})"
 										],
 										"type": "text/javascript"

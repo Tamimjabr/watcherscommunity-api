@@ -15,7 +15,6 @@ router.put('/preferred-currency', (req, res, next) => {
   controller.updatePreferredCurrency(req, res, next)
 })
 
-
 router.get('/wallets', (req, res, next) => {
   controller.getWallets(req, res, next)
 })

@@ -1,3 +1,4 @@
+import { createAuthLinks } from './../helpers/links-creator';
 import { emitter } from './../helpers/event-emitter';
 import { addToken, deleteToken, getToken, getTokenByUserId } from './../respository/token-repository';
 import createError from 'http-errors';
@@ -8,6 +9,7 @@ import { Request, Response, NextFunction } from 'express'
 import ConflictError from '../errors/ConflictError';
 import ValidationError from '../errors/ValidationError';
 import InvalidTokenError from '../errors/InvalidToken';
+
 
 
 const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET } = process.env
@@ -24,12 +26,7 @@ export class AuthController {
       res.status(201).json(
         {
           userID: user._id,
-          links: {
-            self: `${req.protocol}://${req.get('host')}${req.originalUrl}`,
-            login: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'login')}`,
-            logout: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'logout')}`,
-            refresh: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'refresh')}`,
-          }
+          links: createAuthLinks(req)
         })
     } catch (error: any) {
       let err = error
@@ -54,7 +51,11 @@ export class AuthController {
       await addToken({ userID: user._id, refreshToken: tokens.refresh_token })
       emitter.emit('LoginEvent', user._id)
 
-      res.status(200).json(tokens)
+      res.status(200).json({
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token,
+        links: createAuthLinks(req)
+      })
     } catch (error: any) {
       let err = error
       err.innerException = error
@@ -74,7 +75,7 @@ export class AuthController {
         return
       }
       const accessToken = generateAccessToken(decoded?.userID)
-      res.status(201).json({ access_token: accessToken })
+      res.status(201).json({ access_token: accessToken, links: createAuthLinks(req) })
     } catch (error) {
       next(createError(401))
     }
