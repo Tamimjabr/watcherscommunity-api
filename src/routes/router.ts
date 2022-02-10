@@ -1,3 +1,4 @@
+import { WebhookHeaders } from './../data/webhook-header';
 import express, { Request, Response, NextFunction } from 'express'
 import createError from 'http-errors'
 import { router as v1Router } from './api/v1/router'
@@ -15,7 +16,7 @@ router.use('/api', v1Router)
 // router.post('/api', (req: Request, res: Response, next: NextFunction) => {
 //   console.log(req.body)
 //   console.log(req.headers)
-//   console.log(req.headers['x-watcherscommunity-secret'])
+//   console.log(req.headers[WebhookHeaders.XWatchersCommunitySecret])
 
 //   res.send({
 //     date: req.body.date,

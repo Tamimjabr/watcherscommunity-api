@@ -1,3 +1,4 @@
+import { Events } from './../data/supprted-events-webhook';
 import { createAuthLinks } from './../helpers/links-creator';
 import { emitter } from './../helpers/event-emitter';
 import { addToken, deleteToken, getToken, getTokenByUserId } from './../respository/token-repository';
@@ -9,8 +10,6 @@ import { Request, Response, NextFunction } from 'express'
 import ConflictError from '../errors/ConflictError';
 import ValidationError from '../errors/ValidationError';
 import InvalidTokenError from '../errors/InvalidToken';
-
-
 
 const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET } = process.env
 
@@ -49,7 +48,7 @@ export class AuthController {
       const user = await authorizeUser(email, password)
       const tokens = generateAccessRefreshTokens(user._id)
       await addToken({ userID: user._id, refreshToken: tokens.refresh_token })
-      emitter.emit('LoginEvent', user._id)
+      emitter.emit(Events.LoginEvent, user._id)
 
       res.status(200).json({
         access_token: tokens.access_token,

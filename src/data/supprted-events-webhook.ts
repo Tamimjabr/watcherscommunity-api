@@ -1,4 +1,7 @@
+export enum Events {
+  LoginEvent = 'LoginEvent',
+}
 export const SupportedEvents = [
-  'LoginEvent'
+  Events.LoginEvent
 ]
 
