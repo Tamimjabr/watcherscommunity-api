@@ -21,12 +21,16 @@ export class AuthController {
         password: req.body.password
       })
 
-      res.status(201).json({
-        loginURL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'login')}`,
-        logoutURL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'logout')}`,
-        refreshURL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'refresh')}`,
-        userID: user._id
-      })
+      res.status(201).json(
+        {
+          userID: user._id,
+          links: {
+            self: `${req.protocol}://${req.get('host')}${req.originalUrl}`,
+            login: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'login')}`,
+            logout: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'logout')}`,
+            refresh: `${req.protocol}://${req.get('host')}${req.originalUrl.replace('register', 'refresh')}`,
+          }
+        })
     } catch (error: any) {
       let err = error
       if (err.code === 11000) {
