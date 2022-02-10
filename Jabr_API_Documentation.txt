@@ -8,14 +8,14 @@ POST https://watcherscommunity.herokuapp.com/api/auth/refresh  refresh user's ac
 
 DELETE https://watcherscommunity.herokuapp.com/api/auth/logout  logout user and delete related refresh token
 
-GET https://watcherscommunity.herokuapp.com/api/users/{id}/preferred-currency get user's preferred currency
+GET https://watcherscommunity.herokuapp.com/api/users/{id}/profile/preferred-currency get user's preferred currency
 
-PUT https://watcherscommunity.herokuapp.com/api/users/{id}/preferred-currency change user's preferred currency
+PUT https://watcherscommunity.herokuapp.com/api/users/{id}/profile/preferred-currency change user's preferred currency
 
-GET https://watcherscommunity.herokuapp.com/api/users/{id}/wallets get user's wallets
+GET https://watcherscommunity.herokuapp.com/api/users/{id}/profile/wallets get user's wallets
 
-POST https://watcherscommunity.herokuapp.com/api/users/{id}/wallets add new wallet to user's wallets
+POST https://watcherscommunity.herokuapp.com/api/users/{id}/profile/wallets add new wallet to user's wallets
 
-DELETE https://watcherscommunity.herokuapp.com/api/users/{id}/wallets delete wallet from user's wallets
+DELETE https://watcherscommunity.herokuapp.com/api/users/{id}/profile/wallets delete wallet from user's wallets
 
 POST https://watcherscommunity.herokuapp.com/api/users/{id}/webhooks/register enable user to register webhooks
