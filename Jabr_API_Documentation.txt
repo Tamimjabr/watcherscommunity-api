@@ -1,0 +1,21 @@
+GET https://watcherscommunity.herokuapp.com welcome to the watchers community API
+
+POST https://watcherscommunity.herokuapp.com/api/auth/register  register user
+
+POST https://watcherscommunity.herokuapp.com/api/auth/login  login user
+
+POST https://watcherscommunity.herokuapp.com/api/auth/refresh  refresh user's access token using refresh token
+
+DELETE https://watcherscommunity.herokuapp.com/api/auth/logout  logout user and delete related refresh token
+
+GET https://watcherscommunity.herokuapp.com/api/users/{id}/preferred-currency get user's preferred currency
+
+PUT https://watcherscommunity.herokuapp.com/api/users/{id}/preferred-currency change user's preferred currency
+
+GET https://watcherscommunity.herokuapp.com/api/users/{id}/wallets get user's wallets
+
+POST https://watcherscommunity.herokuapp.com/api/users/{id}/wallets add new wallet to user's wallets
+
+DELETE https://watcherscommunity.herokuapp.com/api/users/{id}/wallets delete wallet from user's wallets
+
+POST https://watcherscommunity.herokuapp.com/api/users/{id}/webhooks/register enable user to register webhooks
