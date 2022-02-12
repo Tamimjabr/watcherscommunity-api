@@ -1,5 +1,29 @@
 # API design assignment
 
+## How to run Postman collection
+
+Notice the the requests are targeting https://watcherscommunity.herokuapp.com as in the file for environment variables and not localhost.
+
+### way 1
+
+ By running the following command (in the root of the project) that run the collection using newman and the file for environment variables :
+ ```javascript= 
+newman run ./postman-collection/watcherscommunity-API.postman_collection.json -e ./postman-collection/Watcherscommunity-environment.postman_environment.json
+ ```
+
+ ### way 2
+
+ By running the following command because I already specified script for this commands in package.json:
+ ```javascript=
+npm run newman
+ ```
+ or generating html report in the folder newman in the root of the project
+ ```javascript
+npm run newman:html-report
+ ```
+
+## About Assignment
+
 In this assignment, you will implement a web API following the theory of REST. We encourage you to have your own ideas about the API service to build. Maybe you have some idea you want to start with through an API-driven design? For those of you without any ideas, we present a scenario below. That will also give a hint of the extent of this assignment.
 
 ## Overall requirements

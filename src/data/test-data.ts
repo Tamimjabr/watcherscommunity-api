@@ -47,8 +47,6 @@ const webhooks = [
   }
 ]
 
-
-
 export default {
   users, profiles, webhooks
 }

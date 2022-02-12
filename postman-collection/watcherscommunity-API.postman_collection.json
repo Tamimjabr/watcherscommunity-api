@@ -528,7 +528,7 @@
 									"script": {
 										"exec": [
 											"let result = \"\"\r",
-											"for(let i = 0;i<900000;i++){\r",
+											"for(let i = 0;i<9000;i++){\r",
 											"   result += Math.random() * 10\r",
 											"}\r",
 											"pm.environment.set(\"long_string\", result)"
@@ -1589,7 +1589,7 @@
 					]
 				},
 				{
-					"name": "/user/profile/wallets",
+					"name": "/users/{id}/profile/wallets",
 					"item": [
 						{
 							"name": "with register + login user script",
