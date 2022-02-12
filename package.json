@@ -14,7 +14,8 @@
     "build": "tsc -p .",
     "build:dev": "tsc -w -p .",
     "newman": "newman run ./postman-tests/watcherscommunity-API.postman_collection.json -e ./postman-tests/Watcherscommunity-environment.postman_environment.json",
-    "newman:html-report": "newman run ./postman-tests/watcherscommunity-API.postman_collection.json -e ./postman-tests/Watcherscommunity-environment.postman_environment.json -r html"
+    "newman:html-report": "newman run ./postman-tests/watcherscommunity-API.postman_collection.json -e ./postman-tests/Watcherscommunity-environment.postman_environment.json -r html",
+    "seeder": "ts-node -r dotenv/config src/seeders/seeder.ts"
   },
   "keywords": [],
   "author": "",
