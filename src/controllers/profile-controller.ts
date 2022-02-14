@@ -1,3 +1,4 @@
+import { createProfileLinks } from './../helpers/links-creator';
 import { addWallet, deleteWallet, getExistedProfileOrCreateOne } from './../respository/profile-repository';
 import { Response, NextFunction } from 'express'
 import ValidationError from '../errors/ValidationError';
@@ -10,7 +11,8 @@ export class ProfileController {
       const userID = req.user?.userID || ''
       const profile = await getExistedProfileOrCreateOne(userID)
       res.json({
-        preferredCurrency: profile.preferredCurrency
+        preferredCurrency: profile.preferredCurrency,
+        links: createProfileLinks(req)
       })
     } catch (error) {
       next(error)
@@ -24,7 +26,8 @@ export class ProfileController {
       await updatePreferredCurrency(userID, currency)
 
       res.status(200).json({
-        URL: `${req.protocol}://${req.get('host')}${req.originalUrl}`
+        URL: `${req.protocol}://${req.get('host')}${req.originalUrl}`,
+        links: createProfileLinks(req)
       })
     } catch (error: any) {
       let err = error
@@ -44,7 +47,8 @@ export class ProfileController {
       const userID = req.user?.userID || ''
       const profile = await getExistedProfileOrCreateOne(userID)
       res.json({
-        wallets: profile.wallets
+        wallets: profile.wallets,
+        links: createProfileLinks(req)
       })
     } catch (error) {
       next(error)
@@ -59,7 +63,8 @@ export class ProfileController {
 
       res.status(201).json({
         URL: `${req.protocol}://${req.get('host')}${req.originalUrl}`,
-        walletID
+        walletID,
+        links: createProfileLinks(req)
       })
     } catch (error: any) {
       let err = error

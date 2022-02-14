@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { currenciesNames } from '../data/supported-currencies';
 
 type Link = {
   name: string,
@@ -12,8 +13,10 @@ type Link = {
 
 export const createAuthLinks = (req: Request) => {
   const controllerName = req.path.split('/').pop()!
-  const links: Link[] = [
-    {
+  const linksObject: {
+    [key: string]: Link | undefined
+  } = {
+    register: {
       name: 'register',
       URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(controllerName, 'register')}`,
       method: 'POST',
@@ -23,7 +26,7 @@ export const createAuthLinks = (req: Request) => {
         password: 'string'
       }
     },
-    {
+    login: {
       name: 'login',
       URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(controllerName, 'login')}`,
       method: 'POST',
@@ -33,7 +36,7 @@ export const createAuthLinks = (req: Request) => {
         password: 'string'
       }
     },
-    {
+    refresh: {
       name: 'refresh',
       URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(controllerName, 'refresh')}`,
       method: 'POST',
@@ -42,7 +45,7 @@ export const createAuthLinks = (req: Request) => {
         refresh_token: 'string'
       }
     },
-    {
+    logout: {
       name: 'logout',
       URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(controllerName, 'logout')}`,
       method: 'DELETE',
@@ -52,15 +55,6 @@ export const createAuthLinks = (req: Request) => {
         refresh_token: 'string'
       }
     }
-  ]
-
-  const linksObject: {
-    [key: string]: Link | undefined
-  } = {
-    register: links.find(link => link.name === 'register'),
-    login: links.find(link => link.name === 'login'),
-    refresh: links.find(link => link.name === 'refresh'),
-    logout: links.find(link => link.name === 'logout')
   }
 
   if (linksObject[controllerName]) {
@@ -69,4 +63,56 @@ export const createAuthLinks = (req: Request) => {
   }
 
   return linksObject
+}
+
+export const createProfileLinks = (req: Request) => {
+  const profilePartInRequest = req.path.split('/').pop()!
+  const LinksObject: {
+    [key: string]: Link | undefined
+  } = {
+    preferredCurrency: {
+      name: 'preferredCurrency',
+      URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(profilePartInRequest, 'preferred-currency')}`,
+      method: 'GET',
+      description: 'Get preferred currency of a user',
+      bodyContent: {}
+    },
+    preferredCurrencyUpdate: {
+      name: 'preferredCurrency',
+      URL: `${req.protocol}://${req.get('host')
+        }${req.originalUrl.replace(profilePartInRequest, 'preferred-currency')}`,
+      method: 'PUT',
+      description: 'Update preferred currency of a user',
+      bodyContent: {
+        currency: currenciesNames.join(' | ')
+      }
+    },
+    wallets: {
+      name: 'wallets',
+      URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(profilePartInRequest, 'wallets')}`,
+      method: 'GET',
+      description: 'Get wallets of a user',
+      bodyContent: {}
+    },
+    walletsAdd: {
+      name: 'wallets',
+      URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(profilePartInRequest, 'wallets')}`,
+      method: 'POST',
+      description: 'Add a wallet to a user',
+      bodyContent: {
+        wallet: 'string'
+      }
+    },
+    walletsDelete: {
+      name: 'wallets',
+      URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(profilePartInRequest, 'wallets')}`,
+      method: 'DELETE',
+      description: 'Delete a wallet from a user',
+      bodyContent: {
+        wallet: 'string'
+      }
+    }
+  }
+
+  return LinksObject
 }
