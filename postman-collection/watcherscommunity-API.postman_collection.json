@@ -1296,7 +1296,7 @@
 													"pm.test(\"Successfully change preferred currency with correct userID and accepted currency\", function(){\r",
 													"    pm.response.to.have.status(200)\r",
 													"    const jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData).to.have.all.keys('URL');\r",
+													"    pm.expect(jsonData).to.have.all.keys('URL','links');\r",
 													"})"
 												],
 												"type": "text/javascript"
@@ -1604,7 +1604,7 @@
 													"pm.test(\"Successfully getting wallets array for a user\", function(){\r",
 													"    pm.response.to.have.status(200)\r",
 													"    const jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData).to.have.all.keys('wallets');\r",
+													"    pm.expect(jsonData).to.have.all.keys('wallets', 'links');\r",
 													"})"
 												],
 												"type": "text/javascript"
@@ -1658,7 +1658,7 @@
 													"pm.test(\"Successfully add a wallet to wallets array for a user\", function(){\r",
 													"    pm.response.to.have.status(201)\r",
 													"    const jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData).to.have.all.keys('URL','walletID');\r",
+													"    pm.expect(jsonData).to.have.all.keys('URL','walletID','links');\r",
 													"})"
 												],
 												"type": "text/javascript"
