@@ -15,10 +15,13 @@ export const addWebhook = async (userID: string, webhook: IWebhook) => {
   return await userWebhook.save()
 }
 
-export const getUserWebhookForSpecificEvent = async (userID: string, event: string) => {
+export const getUserWebhookForSpecificEvent = async (userID: string, event: string): Promise<IWebhook | null> => {
   const userWebhook = await getWebhookByUserID(userID)
   if (userWebhook) {
-    return userWebhook.webhooks.find((webhook: IWebhook) => webhook.event === event)
+    const webhook = userWebhook.webhooks.find((webhook: IWebhook) => webhook.event === event)
+    if (webhook) {
+      return webhook
+    }
   }
   return null
 }

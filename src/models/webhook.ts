@@ -1,8 +1,9 @@
 import { SupportedEvents } from './../data/supprted-events-webhook';
 import mongoose, { Schema } from "mongoose";
+import { IUser } from './user';
 
 export interface IUserWebhook {
-  userID: string
+  userID: IUser
   webhooks: IWebhook[]
 }
 
@@ -12,7 +13,7 @@ export interface IWebhook {
   secret: string
 }
 
-const WebhookSchema: Schema = new Schema(
+const WebhookSchema: Schema<IWebhook> = new Schema(
   {
     url: {
       type: String,
@@ -35,7 +36,7 @@ const WebhookSchema: Schema = new Schema(
   }
 )
 
-const UserWebhookSchema: Schema = new Schema(
+const UserWebhookSchema: Schema<IUserWebhook> = new Schema(
   {
     userID: {
       type: Schema.Types.ObjectId,

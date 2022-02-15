@@ -1,11 +1,12 @@
 import mongoose, { Schema } from "mongoose";
+import { IUser } from "./user";
 
 export interface IToken {
   refreshToken: string
-  userID: string
+  userID: IUser
 }
 
-const TokenSchema: Schema = new Schema(
+const TokenSchema: Schema<IToken> = new Schema(
   {
     refreshToken: {
       type: String,

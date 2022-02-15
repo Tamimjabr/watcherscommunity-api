@@ -11,7 +11,7 @@ export const emitter = new EventEmitter();
 export const addEventListener = () => {
   emitter.on(Events.LoginEvent, async (userID) => {
     try {
-      const userWebhookForEvent: IWebhook = await getUserWebhookForSpecificEvent(userID, Events.LoginEvent)
+      const userWebhookForEvent: IWebhook | null = await getUserWebhookForSpecificEvent(userID, Events.LoginEvent)
       if (userWebhookForEvent) {
         await postLoginEventHook(userWebhookForEvent.url, userWebhookForEvent.secret)
         console.log(`Webhook sent to ${userWebhookForEvent.url} ${userWebhookForEvent.secret}`)

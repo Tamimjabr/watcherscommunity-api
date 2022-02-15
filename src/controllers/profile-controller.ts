@@ -55,7 +55,7 @@ export class ProfileController {
     }
   }
 
-  async addWalletToPorfile (req: CustomRequest, res: Response, next: NextFunction) {
+  async addWalletToProfile (req: CustomRequest, res: Response, next: NextFunction) {
     try {
       const userID = req.user?.userID || ''
       const walletID = req.body.wallet as string

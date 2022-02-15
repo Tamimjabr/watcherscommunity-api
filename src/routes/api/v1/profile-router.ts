@@ -20,7 +20,7 @@ router.get('/wallets', (req, res, next) => {
 })
 
 router.post('/wallets', (req, res, next) => {
-  controller.addWalletToPorfile(req, res, next)
+  controller.addWalletToProfile(req, res, next)
 })
 
 router.delete('/wallets', (req, res, next) => {

@@ -71,14 +71,14 @@ export const createProfileLinks = (req: Request) => {
     [key: string]: Link | undefined
   } = {
     preferredCurrency: {
-      name: 'preferredCurrency',
+      name: 'preferred-currency',
       URL: `${req.protocol}://${req.get('host')}${req.originalUrl.replace(profilePartInRequest, 'preferred-currency')}`,
       method: 'GET',
       description: 'Get preferred currency of a user',
       bodyContent: {}
     },
     preferredCurrencyUpdate: {
-      name: 'preferredCurrency',
+      name: 'preferred-currency',
       URL: `${req.protocol}://${req.get('host')
         }${req.originalUrl.replace(profilePartInRequest, 'preferred-currency')}`,
       method: 'PUT',
@@ -111,6 +111,37 @@ export const createProfileLinks = (req: Request) => {
       bodyContent: {
         wallet: 'string'
       }
+    }
+  }
+
+  if (profilePartInRequest === 'preferred-currency') {
+    console.log(req.method)
+    switch (req.method) {
+      case 'GET':
+        LinksObject.self = LinksObject.preferredCurrency
+        delete LinksObject.preferredCurrency
+        break;
+      case 'PUT':
+        LinksObject.self = LinksObject.preferredCurrencyUpdate
+        delete LinksObject.preferredCurrencyUpdate
+        break;
+      default:
+        break;
+    }
+
+  } else if (profilePartInRequest === 'wallets') {
+    console.log(req.method)
+    switch (req.method) {
+      case 'GET':
+        LinksObject.self = LinksObject.wallets
+        delete LinksObject.wallets
+        break;
+      case 'POST':
+        LinksObject.self = LinksObject.walletsAdd
+        delete LinksObject.walletsAdd
+        break;
+      default:
+        break;
     }
   }
 
