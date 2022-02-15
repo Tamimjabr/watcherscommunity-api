@@ -115,7 +115,7 @@ export const createProfileLinks = (req: Request) => {
   }
 
   if (profilePartInRequest === 'preferred-currency') {
-    console.log(req.method)
+
     switch (req.method) {
       case 'GET':
         LinksObject.self = LinksObject.preferredCurrency
@@ -130,7 +130,7 @@ export const createProfileLinks = (req: Request) => {
     }
 
   } else if (profilePartInRequest === 'wallets') {
-    console.log(req.method)
+
     switch (req.method) {
       case 'GET':
         LinksObject.self = LinksObject.wallets
