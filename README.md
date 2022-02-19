@@ -13,7 +13,7 @@ newman run ./postman-collection/watcherscommunity-API.postman_collection.json -e
 
  ### way 2
 
- By running the following command because I already specified script for this commands in package.json:
+ By running the following command because I already specified script for these commands in package.json:
  ```javascript=
 npm run newman
  ```

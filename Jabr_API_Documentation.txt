@@ -1,4 +1,4 @@
-GET https://watcherscommunity.herokuapp.com welcome to the watchers community API
+GET https://watcherscommunity.herokuapp.com welcome to the watcherscommunity API
 
 POST https://watcherscommunity.herokuapp.com/api/auth/register  register user
 
@@ -18,4 +18,4 @@ POST https://watcherscommunity.herokuapp.com/api/users/{id}/profile/wallets add 
 
 DELETE https://watcherscommunity.herokuapp.com/api/users/{id}/profile/wallets delete wallet from user's wallets
 
-POST https://watcherscommunity.herokuapp.com/api/users/{id}/webhooks/register enable user to register webhooks
+POST https://watcherscommunity.herokuapp.com/api/users/{id}/webhooks/register enable user to register a webhook
