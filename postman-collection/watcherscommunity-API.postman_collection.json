@@ -2005,7 +2005,7 @@
 									"response": []
 								},
 								{
-									"name": "200 - register event successfully",
+									"name": "201 - register event successfully",
 									"event": [
 										{
 											"listen": "test",
