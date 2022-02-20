@@ -14,11 +14,6 @@ const main = async () => {
   // Security
   app.use(helmet())
   app.use(cors())
-  // app.use(
-  //   cors({
-  //     exposedHeaders: ["custom-header"]
-  //   })
-  // )
 
   // Logging
   app.use(logger('dev'))
