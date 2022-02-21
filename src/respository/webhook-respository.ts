@@ -1,3 +1,4 @@
+import createError from 'http-errors';
 import { UserWebhookModel } from './../models/webhook';
 import { IWebhook } from "../models/webhook";
 
@@ -13,6 +14,16 @@ export const addWebhook = async (userID: string, webhook: IWebhook) => {
     userWebhook.webhooks.push(webhook)
   }
   return await userWebhook.save()
+}
+
+export const removeRegisteredWebhookForEvent = async (userID: string, event: string) => {
+  const userWebhook = await getExistedUserWebhookOrCreateOne(userID)
+  const existedWebhookForEvent = userWebhook.webhooks.find((existedWebhook: IWebhook) => existedWebhook.event === event)
+  if (existedWebhookForEvent) {
+    userWebhook.webhooks = userWebhook.webhooks.filter((existedWebhook: IWebhook) => existedWebhook.event !== event)
+    return await userWebhook.save()
+  }
+  throw createError(404, `No Webhook for event ${event} was found`)
 }
 
 export const getUserWebhookForSpecificEvent = async (userID: string, event: string): Promise<IWebhook | null> => {

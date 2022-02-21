@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express'
 import { WebhookHeaders } from '../data/webhook-header'
 import ValidationError from '../errors/ValidationError'
 import { CustomRequest } from '../middlewares/authorization-middleware'
-import { addWebhook } from '../respository/webhook-respository'
+import { addWebhook, removeRegisteredWebhookForEvent } from '../respository/webhook-respository'
 
 export class WebhookController {
   async register (req: CustomRequest, res: Response, next: NextFunction) {
@@ -25,6 +25,16 @@ export class WebhookController {
       }
       err.innerException = error
       next(err)
+    }
+  }
+
+  async unregister (req: CustomRequest, res: Response, next: NextFunction) {
+    try {
+      const userID = req.user?.userID || ''
+      await removeRegisteredWebhookForEvent(userID, req.body.event)
+      res.status(204).end()
+    } catch (error) {
+      next(error)
     }
   }
 }

@@ -2277,6 +2277,219 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "users/{id}/webhooks/unregister",
+					"item": [
+						{
+							"name": "with register + login user script Copy",
+							"item": [
+								{
+									"name": "204 - unregister event successfully",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"204 unregister webhook for 'LoginAttempt' event successfully\", function(){\r",
+													"    pm.response.to.have.status(204)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"// register webhook to be deleted\r",
+													" const postRequestToRegisterWebhook = {\r",
+													"  url: `${pm.environment.get('base_url')}/api/users/${pm.environment.get('webhook_user_id')}/webhooks/register`,\r",
+													"  method: 'POST',\r",
+													"  header: {\r",
+													"    'Content-Type': 'application/json',\r",
+													"    'X-Foo': 'bar',\r",
+													"    'Authorization':`Bearer ${pm.environment.get('webhook_access_token')}`\r",
+													"  },\r",
+													"  body: {\r",
+													"    mode: 'raw',\r",
+													"    raw: JSON.stringify({  \"event\":'LoginEvent',\r",
+													"    'url':'exampleurl.com/api',\r",
+													"    'secret':'secrettobeused'})\r",
+													"  }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(postRequestToRegisterWebhook, function (err, response) {\r",
+													"    console.log(response.json());\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{webhook_access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"event\":\"LoginEvent\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}{{sub_uri}}/users/{{webhook_user_id}}/webhooks/unregister",
+											"host": [
+												"{{base_url}}{{sub_uri}}"
+											],
+											"path": [
+												"users",
+												"{{webhook_user_id}}",
+												"webhooks",
+												"unregister"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "404 - unregister not existed webhook",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"404 unregister webhook that is not registered\", function(){\r",
+													"    pm.response.to.have.status(404)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{webhook_access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"event\":\"logout\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}{{sub_uri}}/users/{{webhook_user_id}}/webhooks/unregister",
+											"host": [
+												"{{base_url}}{{sub_uri}}"
+											],
+											"path": [
+												"users",
+												"{{webhook_user_id}}",
+												"webhooks",
+												"unregister"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"const postRequest = {",
+											"  url: `${pm.environment.get('base_url')}/api/auth/register`,",
+											"  method: 'POST',",
+											"  header: {",
+											"    'Content-Type': 'application/json',",
+											"    'X-Foo': 'bar'",
+											"  },",
+											"  body: {",
+											"    mode: 'raw',",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('webhook_user_email'),",
+											"  \"password\": pm.environment.get('webhook_user_password')})",
+											"  }",
+											"};",
+											"pm.sendRequest(postRequest, (error, response) => {",
+											"  console.log(error ? error : response.json());",
+											"    // login the user to get tokens",
+											"  const postRequest = {",
+											"  url: `${pm.environment.get('base_url')}/api/auth/login`,",
+											"  method: 'POST',",
+											"  header: {",
+											"    'Content-Type': 'application/json',",
+											"    'X-Foo': 'bar'",
+											"  },",
+											"  body: {",
+											"    mode: 'raw',",
+											"    raw: JSON.stringify({  \"email\":pm.environment.get('webhook_user_email'),",
+											"  \"password\": pm.environment.get('webhook_user_password')})",
+											"  }",
+											"};",
+											"pm.sendRequest(postRequest, (error, response) => {",
+											"console.log(error ? error : response.json());",
+											"const jsonData = response.json()",
+											"const {access_token}= jsonData",
+											"pm.environment.set('webhook_access_token', access_token)",
+											"",
+											"// get the userID from the token",
+											"const payload = access_token.split('.')[1]",
+											"const parsed = JSON.parse(atob(payload)) ",
+											"console.log(parsed.userID)",
+											"pm.environment.set('webhook_user_id', parsed.userID)",
+											"});",
+											"});",
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						}
+					]
 				}
 			]
 		}

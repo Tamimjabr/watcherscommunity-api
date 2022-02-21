@@ -19,3 +19,5 @@ POST https://watcherscommunity.herokuapp.com/api/users/{id}/profile/wallets add 
 DELETE https://watcherscommunity.herokuapp.com/api/users/{id}/profile/wallets delete wallet from user's wallets
 
 POST https://watcherscommunity.herokuapp.com/api/users/{id}/webhooks/register enable user to register a webhook
+
+DELETE https://watcherscommunity.herokuapp.com/api/users/{id}/webhooks/unregister enable user to unregister a webhook for event

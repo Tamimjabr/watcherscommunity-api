@@ -10,3 +10,7 @@ router.use(authorizeJWT)
 router.post('/register', (req, res, next) => {
   controller.register(req, res, next)
 })
+
+router.delete('/unregister', (req, res, next) => {
+  controller.unregister(req, res, next)
+})
