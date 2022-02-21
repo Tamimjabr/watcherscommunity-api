@@ -1,4 +1,4 @@
-import { SupportedEvents } from './../data/supprted-events-webhook';
+import { Events, SupportedEvents } from './../data/supprted-events-webhook';
 import mongoose, { Schema } from "mongoose";
 import { IUser } from './user';
 
@@ -9,7 +9,7 @@ export interface IUserWebhook {
 
 export interface IWebhook {
   url: string
-  event: string
+  event: Events
   secret: string
 }
 
